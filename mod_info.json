@@ -1,0 +1,18 @@
+{
+  "id": "johnShmo_wingsOfEnteria",
+  "name": "Wings Of Enteria",
+  "author": "John Shmo",
+  "utility": false,
+  "version": {
+    "major": "1",
+    "minor": "0",
+    "patch": "0"
+  },
+  "description": "Adds a new faction, the Enterian Fragment, to the game. Explore new campaign features and unlockable abilities.",
+  "gameVersion": "0.98a-RC5",
+  "jars": [
+    "jars/Wings-Of-Enteria.jar"
+  ],
+  "modPlugin": "johnshmo.woe.ModPlugin",
+  "dependencies": []
+}
