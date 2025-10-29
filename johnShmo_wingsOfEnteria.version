@@ -12,7 +12,7 @@
 
   "modThreadId": 0, # eg 8181
 
-  "directDownloadURL": "",
+  "directDownloadURL": "https://github.com/JohnShmo/Wings-Of-Enteria/releases/latest/download/Wings-Of-Enteria.zip",
 
   "changelogURL": "https://github.com/JohnShmo/Wings-Of-Enteria/blob/main/changelog.md",
 }
