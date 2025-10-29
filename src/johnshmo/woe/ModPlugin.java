@@ -11,7 +11,14 @@ public class ModPlugin extends BaseModPlugin {
     @Override
     public void onNewGame() {
         super.onNewGame();
+        WOEGlobal.initialize();
     }
 
-
+    @Override
+    public void onGameLoad(boolean newGame) {
+        super.onGameLoad(newGame);
+        if (!newGame) {
+            WOEGlobal.initialize();
+        }
+    }
 }
