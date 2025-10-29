@@ -4,9 +4,9 @@
   "author": "John Shmo",
   "utility": false,
   "version": {
-    "major": "1",
+    "major": "0",
     "minor": "0",
-    "patch": "0"
+    "patch": "1"
   },
   "description": "Adds a new faction, the Enterian Fragment, to the game. Explore new campaign features and unlockable abilities.",
   "gameVersion": "0.98a-RC5",
@@ -14,5 +14,11 @@
     "jars/Wings-Of-Enteria.jar"
   ],
   "modPlugin": "johnshmo.woe.ModPlugin",
-  "dependencies": []
+  "dependencies": [
+    {
+      "id": "lw_lazylib",
+      "name": "LazyLib",
+      "version": "2.7b"
+    }
+  ]
 }
