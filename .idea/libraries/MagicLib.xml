@@ -2,7 +2,6 @@
   <library name="MagicLib">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../MagicLib/jars/MagicLib.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../MagicLib/jars/MagicLib-Kotlin.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="https://magiclibstarsector.github.io/MagicLib/" />
@@ -10,7 +9,6 @@
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../MagicLib/jars/MagicLib.jar!/" />
       <root url="jar://$PROJECT_DIR$/../MagicLib/jars/MagicLib.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../MagicLib/jars/MagicLib-Kotlin.jar!/" />
     </SOURCES>
   </library>
 </component>

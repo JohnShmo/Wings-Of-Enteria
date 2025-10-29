@@ -5,7 +5,7 @@ import com.fs.starfarer.api.campaign.BaseCampaignPlugin
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 
 class WOECampaignPlugin : BaseCampaignPlugin() {
-    private val memory: MemoryAPI = Global.getFactory().createMemory()
+    private val data: Map<String, Any> = HashMap()
 
     init {
         Global.getSector().registerPlugin(this)

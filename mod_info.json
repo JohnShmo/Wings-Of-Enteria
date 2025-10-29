@@ -13,7 +13,7 @@
   "jars": [
     "jars/Wings-Of-Enteria.jar"
   ],
-  "modPlugin": "johnshmo.woe.ModPlugin",
+  "modPlugin": "johnshmo.woe.WOEModPlugin",
   "dependencies": [
     {
       "id": "lw_lazylib",

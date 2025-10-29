@@ -1,28 +1,34 @@
 package johnshmo.woe
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.rules.MemoryAPI
+import exerelin.campaign.SectorManager
 import johnshmo.woe.generation.NewEnteria
-import johnshmo.woe.generation.StarSystem
+import johnshmo.woe.generation.StarSystemGenerator
+
 
 class WOEGenerator {
-    private val memory: MemoryAPI = Global.getFactory().createMemory()
+    private val data: MutableMap<String, Any> = HashMap()
 
     fun initialize() {
         WOEGlobal.logger.info("Generating star systems...")
-        newEnteria.initialize()
-        WOEGlobal.logger.info("Star systems generated.")
+        val isNexerelinEnabled = Global.getSettings().modManager.isModEnabled("nexerelin")
+        if (!isNexerelinEnabled || SectorManager.getManager().isCorvusMode) {
+            newEnteria.initialize()
+            WOEGlobal.logger.info("Star systems generated.")
+        } else {
+            WOEGlobal.logger.info("Skipped star system generation for random sector.")
+        }
     }
 
     val newEnteria: NewEnteria
         get() {
-            return getOrMakeStarSystem("\$newEnteria") { NewEnteria() } as NewEnteria
+            return getOrMakeStarSystem("newEnteria") { NewEnteria() } as NewEnteria
         }
 
-    private fun getOrMakeStarSystem(id: String, factory: () -> StarSystem): StarSystem {
-        if (!memory.contains(id)) {
-            memory.set(id, factory())
+    private fun getOrMakeStarSystem(id: String, factory: () -> StarSystemGenerator): StarSystemGenerator {
+        if (!data.contains(id)) {
+            data[id] = factory()
         }
-        return (memory.get(id) as StarSystem)
+        return (data[id] as StarSystemGenerator)
     }
 }

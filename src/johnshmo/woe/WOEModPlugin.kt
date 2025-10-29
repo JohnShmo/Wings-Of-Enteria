@@ -1,24 +1,22 @@
-package johnshmo.woe;
+package johnshmo.woe
 
-import com.fs.starfarer.api.BaseModPlugin;
+import com.fs.starfarer.api.BaseModPlugin
 
-public class ModPlugin extends BaseModPlugin {
-    @Override
-    public void onApplicationLoad() throws Exception {
-        super.onApplicationLoad();
+class WOEModPlugin : BaseModPlugin() {
+    @Throws(Exception::class)
+    override fun onApplicationLoad() {
+        super.onApplicationLoad()
     }
 
-    @Override
-    public void onNewGame() {
-        super.onNewGame();
-        WOEGlobal.initialize();
+    override fun onNewGame() {
+        super.onNewGame()
+        WOEGlobal.initialize()
     }
 
-    @Override
-    public void onGameLoad(boolean newGame) {
-        super.onGameLoad(newGame);
+    override fun onGameLoad(newGame: Boolean) {
+        super.onGameLoad(newGame)
         if (!newGame) {
-            WOEGlobal.initialize();
+            WOEGlobal.initialize()
         }
     }
 }
