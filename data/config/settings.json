@@ -1,5 +1,27 @@
 {
-	"plugins":{
-		 "woe_combat_plugin":"johnshmo.woe.WOECombatPlugin"
-	}
+  "plugins": {
+    "woe_combat_plugin": "johnshmo.woe.WOECombatPlugin"
+  },
+  "graphics": {
+    "woe_stations": {
+      "wings_of_enteria": "graphics/wings_of_enteria/stations/wings_of_enteria.png",
+      "wings_of_enteria_blink_green": "graphics/wings_of_enteria/stations/wings_of_enteria_blink_green.png",
+      "wings_of_enteria_blink_yellow": "graphics/wings_of_enteria/stations/wings_of_enteria_blink_yellow.png",
+      "wings_of_enteria_engine_glow": "graphics/wings_of_enteria/stations/wings_of_enteria_engine_glow.png",
+      "wings_of_enteria_ring_00": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_00.png",
+      "wings_of_enteria_ring_01": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_01.png",
+      "wings_of_enteria_ring_02": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_02.png",
+      "wings_of_enteria_ring_03": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_03.png",
+      "wings_of_enteria_ring_04": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_04.png",
+      "wings_of_enteria_ring_05": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_05.png",
+      "wings_of_enteria_ring_06": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_06.png",
+      "wings_of_enteria_ring_07": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_07.png",
+      "wings_of_enteria_ring_08": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_08.png",
+      "wings_of_enteria_ring_09": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_09.png",
+      "wings_of_enteria_ring_10": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_10.png"
+    }
+  },
+  "designTypeColors": {
+    "Enterian Design": [210,180,190,255]
+  }
 }

@@ -1,6 +1,9 @@
 {
 	id:"woe_enterian_fragment",
-	"color":[150,150,150,255],
+	"color":[210,180,190,255],
+    "secondaryUIColor":[60,43,52,255],
+    "secondarySegments":8,
+    "baseUIColor":[210,180,190,255],
 	"displayName":"Enterian Fragment",
 	"displayNameWithArticle":"the Enterian Fragment",
 	"displayNameLong":"Enterian Fragment",
@@ -41,12 +44,12 @@
 	},
 	# ships the faction gets access to when importing S&W out-of-faction
 	"shipsWhenImporting":{
-		"tags":["ind", "independent"],
+		"tags":[],
 		"hulls":[
 		],
 	},
 	"knownShips":{
-		"tags":[],
+		"tags":["ind", "independent"],
 		"hulls":[
 		],
 	},
@@ -57,7 +60,7 @@
 		],
 	},
 	"knownFighters":{
-		"tags":[],
+		"tags":["ind", "independent"],
 		"fighters":[
 		],
 	},
@@ -67,7 +70,7 @@
 		],
 	},
 	"knownWeapons":{
-		"tags":[],
+		"tags":["ind", "independent"],
 		"weapons":[
 		],
 	},
@@ -188,7 +191,7 @@
             "factionLeader":{"name":"Grand Overseer"},
             "patrolCommander":{"name":"Patrol Overseer"},
             "fleetCommander":{"name":"Fleet Overseer"},
-            "baseCommander":{"name":"Base Overseer"},
+            "baseCommander":{"name":"Habitat Overseer"},
             "militaryAdministrator":{"name":"Military Overseer"},
         },
     },

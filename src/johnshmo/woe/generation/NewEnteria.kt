@@ -1,13 +1,26 @@
 package johnshmo.woe.generation
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.PlanetAPI
+import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.SpecialItemData
+import com.fs.starfarer.api.campaign.SpecialItemSpecAPI
+import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import com.fs.starfarer.api.impl.campaign.ids.Industries
+import com.fs.starfarer.api.impl.campaign.ids.Items
 import com.fs.starfarer.api.impl.campaign.ids.Planets
 import com.fs.starfarer.api.impl.campaign.ids.StarTypes
+import com.fs.starfarer.api.impl.campaign.ids.Submarkets
 import com.fs.starfarer.api.impl.campaign.ids.Terrain
 import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor
+import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.AICores
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin
 import com.fs.starfarer.api.util.Misc
+import johnshmo.woe.MarketplaceParams
+import johnshmo.woe.WOECustomEntities
+import johnshmo.woe.WOEFactions
+import johnshmo.woe.createMarketplace
 import java.awt.Color
 
 class NewEnteria : StarSystemGenerator() {
@@ -31,9 +44,15 @@ class NewEnteria : StarSystemGenerator() {
             return system.getEntityById(ALICE_MOLLY_ID) as PlanetAPI
         }
 
+    val wingsOfEnteria: SectorEntityToken
+        get() {
+            return system.getEntityById(WINGS_OF_ENTERIA_ID) as SectorEntityToken
+        }
+
     override fun initializeImpl() {
         generateStar()
         generateAlice()
+        generateWingsOfEnteria()
         generateHyperspace()
     }
 
@@ -49,6 +68,7 @@ class NewEnteria : StarSystemGenerator() {
                 starRadius,
                 coronaSize,
             )
+            data[generatedStar] = true
         }
     }
 
@@ -103,6 +123,61 @@ class NewEnteria : StarSystemGenerator() {
                 moonOrbitRadius,
                 moonOrbitDays,
             )
+
+            data[generatedAlice] = true
+        }
+    }
+
+    private fun generateWingsOfEnteria() {
+        val generatedWingsOfEnteria = "generatedWingsOfEnteria"
+        if (!data.contains(generatedWingsOfEnteria)) {
+            val wingsOfEnteria = system.addCustomEntity(
+                WINGS_OF_ENTERIA_ID,
+                "Wings of Enteria",
+                WOECustomEntities.WINGS_OF_ENTERIA,
+                WOEFactions.ENTERIAN_FRAGMENT
+            )
+            wingsOfEnteria.setCircularOrbitPointingDown(star, 10f, 3000f, 200f)
+
+            val market = createMarketplace(MarketplaceParams(
+                WOEFactions.ENTERIAN_FRAGMENT,
+                wingsOfEnteria,
+                listOf(),
+                "Wings of Enteria",
+                6,
+                listOf(
+                    Conditions.POPULATION_6,
+                    Conditions.ORE_RICH,
+                    Conditions.RARE_ORE_RICH,
+                    Conditions.VOLATILES_ABUNDANT,
+                    Conditions.POLLUTION
+                ),
+                listOf(
+                    Industries.POPULATION,
+                    Industries.SPACEPORT,
+                    Industries.HEAVYBATTERIES,
+                    Industries.STARFORTRESS_MID,
+                    Industries.MINING,
+                    Industries.REFINING,
+                    Industries.ORBITALWORKS,
+                    Industries.HIGHCOMMAND
+                ),
+                listOf(
+                    Submarkets.SUBMARKET_STORAGE,
+                    Submarkets.GENERIC_MILITARY,
+                    Submarkets.SUBMARKET_OPEN,
+                    Submarkets.SUBMARKET_BLACK
+                )
+            ))
+
+            market.getIndustry(Industries.ORBITALWORKS).specialItem = SpecialItemData(
+                Items.CORRUPTED_NANOFORGE,
+                null
+            )
+            market.getIndustry(Industries.MINING).aiCoreId = "gamma_core"
+            market.getIndustry(Industries.ORBITALWORKS).aiCoreId = "gamma_core"
+
+            data[generatedWingsOfEnteria] = true
         }
     }
 
@@ -131,5 +206,6 @@ class NewEnteria : StarSystemGenerator() {
         private const val STAR_ID = ID + "_star"
         private const val ALICE_ID = ID + "_alice"
         private const val ALICE_MOLLY_ID = ALICE_ID + "_molly"
+        private const val WINGS_OF_ENTERIA_ID = "woe_wings_of_enteria"
     }
 }

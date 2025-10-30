@@ -1,0 +1,30 @@
+{
+  "woe_station_wings_of_enteria": {
+    "defaultName": "Wings Of Enteria",
+    "defaultRadius": 128,
+    "customDescriptionId": "orbital_station_default",
+    "interactionImage": "graphics/illustrations/jangala_station.jpg",
+    "icon": "graphics/icons/station0.png",
+    "iconWidth": 24,
+    "iconHeight": 24,
+    "sprite": "graphics/wings_of_enteria/stations/wings_of_enteria.png",
+    "spriteWidth": 256,
+    "spriteHeight": 256,
+    "renderShadow": false,
+    "useLightColor": true,
+    "showInCampaign": true,
+    "showIconOnMap": true,
+    "showNameOnMap": false,
+    "scaleNameWithZoom": false,
+    "scaleIconWithZoom": true,
+    "tags": [
+      "station"
+    ],
+    "layers": [
+      STATIONS
+    ],
+    "pluginClass": "johnshmo.woe.entities.WingsOfEnteria"
+  }
+}
+
+
