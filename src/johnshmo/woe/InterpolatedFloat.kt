@@ -28,4 +28,9 @@ class InterpolatedFloat(initialValue: Float, var duration: Float, var curveFunct
     fun advance(amount: Float) {
         progress = max(0f, min(progress + if (duration > 0) amount / duration else 1.0f, 1.0f))
     }
+
+    fun set(targetValue: Float, duration: Float) {
+        this.targetValue = targetValue
+        this.duration = duration
+    }
 }

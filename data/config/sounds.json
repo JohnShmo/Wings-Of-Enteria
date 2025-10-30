@@ -1,41 +1,54 @@
 {
-   "music": {
-     "woe_music_enterian_market": [
-       {
-         "file": "enterian_market.ogg",
-         "source": "sounds/wings_of_enteria/music/",
-         "volume": 1
-       }
-     ],
-     "woe_music_enterian_encounter_neutral": [
-       {
-         "file": "enterian_encounter_neutral.ogg",
-         "source": "sounds/wings_of_enteria/music/",
-         "volume": 1
-       }
-     ],
-     "woe_music_enterian_encounter_hostile": [
-       {
-         "file": "enterian_encounter_hostile.ogg",
-         "source": "sounds/wings_of_enteria/music/",
-         "volume": 1
-       }
-     ],
-     "woe_music_enterian_encounter_friendly": [
-       {
-         "file": "enterian_encounter_friendly.ogg",
-         "source": "sounds/wings_of_enteria/music/",
-         "volume": 1
-       }
-     ],
-     "woe_music_shifter_encounter": [
-       {
-         "file": "shifter_encounter.ogg",
-         "source": "sounds/wings_of_enteria/music/",
-         "volume": 1
-       }
-     ]
-   },
+  "music": {
+    "woe_music_enterian_market": [
+      {
+        "files": [
+          "enterian_market.ogg"
+        ],
+        "source": "sounds/wings_of_enteria/music/",
+        "volume": 0.8
+      }
+    ],
+    "woe_music_enterian_encounter_neutral": [
+      {
+        "files": [
+          "enterian_encounter_neutral.ogg"
+        ],
+        "source": "sounds/wings_of_enteria/music/",
+        "volume": 0.8,
+        "randomStart": true
+      }
+    ],
+    "woe_music_enterian_encounter_hostile": [
+      {
+        "files": [
+          "enterian_encounter_hostile.ogg"
+        ],
+        "source": "sounds/wings_of_enteria/music/",
+        "volume": 0.8,
+        "randomStart": true
+      }
+    ],
+    "woe_music_enterian_encounter_friendly": [
+      {
+        "files": [
+          "enterian_encounter_friendly.ogg"
+        ],
+        "source": "sounds/wings_of_enteria/music/",
+        "volume": 0.8,
+        "randomStart": true
+      }
+    ],
+    "woe_music_shifter_encounter": [
+      {
+        "files": [
+          "shifter_encounter.ogg"
+        ],
+        "source": "sounds/wings_of_enteria/music/",
+        "volume": 0.8
+      }
+    ]
+  },
   "woe_shifter_rift_loop": [
     {
       "file": "sounds/wings_of_enteria/sfx/shifter_rift_loop_00.ogg",

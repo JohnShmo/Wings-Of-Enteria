@@ -1,0 +1,86 @@
+{
+  "playableFaction": true,
+  "corvusCompatible": true,
+  "rebelFleetSuffix": "Traitors",
+  "marketSpawnWeight": 1.25,
+  "startRelationships": {
+    "hegemony": -0.3,
+    "persean": 0.2,
+    "dweller": -1.0
+  },
+  "maxRelationships": {
+    "hegemony": 0.15,
+    "luddic_path": -0.26,
+    "remnant": -0.51,
+    "dweller": -1.0
+  },
+  "diplomacyPositiveChance": {
+    "persean": 1.2,
+    "hegemony": 0.8
+  },
+  "diplomacyNegativeChance": {
+    "persean": 0.8,
+    "hegemony": 1.2
+  },
+  "dispositions":{
+    "hegemony": -10
+  },
+  "alignments": {
+    "technocratic": 0,
+    "hierarchical": 0.25,
+    "militarist": 1,
+    "diplomatic": -0.25,
+    "ideological": 1
+  },
+  "diplomacyTraits": [
+    "paranoid",
+    "stalwart",
+    "dislikes_ai",
+    "law_and_order",
+    "lowprofile"
+  ],
+  "colonyExpeditionChance": 1,
+  "colonyTargetValuator": "exerelin.campaign.colony.IndustrialColonyTargetValuator",
+  "specialForcesNamerClass": "exerelin.campaign.intel.specialforces.namer.PlanetNamer",
+  "defenceStations": [
+    {
+      "ids": [
+        "orbitalstation",
+        "battlestation",
+        "starfortress"
+      ]
+    },
+    {
+      "ids": [
+        "orbitalstation_mid",
+        "battlestation_mid",
+        "starfortress_mid"
+      ],
+      "weight": 0.75
+    }
+  ],
+  "industrySeeds": [
+    {
+      "id": "orbitalworks",
+      "mult": 0.1
+    },
+    {
+      "id": "fuelprod",
+      "mult": 0.1
+    },
+    {
+      "id": "lightindustry",
+      "mult": 0.1
+    }
+  ],
+  "bonusSeeds": [
+    {
+      "id": "population_upsize",
+      "count": 1
+    },
+    {
+      "id": "nanoforge_corrupt",
+      "count": 1
+    }
+  ]
+}

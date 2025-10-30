@@ -1,14 +1,14 @@
 {
 	id:"woe_enterian_fragment",
 	"color":[210,180,190,255],
-    "secondaryUIColor":[60,43,52,255],
-    "secondarySegments":8,
+    "secondaryUIColor":[121,70,90,255],
+    "secondarySegments":12,
     "baseUIColor":[210,180,190,255],
 	"displayName":"Enterian Fragment",
 	"displayNameWithArticle":"the Enterian Fragment",
 	"displayNameLong":"Enterian Fragment",
 	"displayNameLongWithArticle":"the Enterian Fragment",
-	"entityNamePrefix":"",
+	"entityNamePrefix":"Enterian",
 	"personNamePrefix":"Enterian",
 	"personNamePrefixAOrAn":"an",
 	"displayNameIsOrAre":"are",
@@ -105,8 +105,8 @@
 		
 		"aggression":2,
 		
-		"combatFreighterProbability":0.5,     				# instead of some portion of the freighters in a fleet
-		"combatFreighterCombatUseFraction":0.5,				# as part of the normal combat lineup
+		"combatFreighterProbability":0.25,     				# instead of some portion of the freighters in a fleet
+		"combatFreighterCombatUseFraction":0.25,			# as part of the normal combat lineup
 		"combatFreighterCombatUseFractionWhenPriority":1,   # as part of normal combat lineup, when marked as priority ship
 		"autofitRandomizeProbability":0.1,
 
@@ -230,12 +230,5 @@
 		"simulatorData":{
 			"showInSimulator":true,
 		},
-	},
-	"fleetTypeNames":{
-		"mercScout":"Enterian Scout",
-		"mercBountyHunter":"Bounty Hunter",
-		"mercPrivateer":"Privateer",
-		"mercPatrol":"Mercenary Patrol",
-		"mercArmada":"Mercenary Company",
-	},
+	}
 },	

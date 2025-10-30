@@ -3,6 +3,8 @@ package johnshmo.woe
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import com.fs.starfarer.api.impl.campaign.ids.Industries
 
 data class MarketplaceParams(
     val factionId: String,
@@ -28,10 +30,24 @@ fun createMarketplace(params: MarketplaceParams): MarketAPI {
         newMarket.addSubmarket(market)
     }
 
+    when(params.size) {
+        1 -> newMarket.addCondition(Conditions.POPULATION_1)
+        2 -> newMarket.addCondition(Conditions.POPULATION_2)
+        3 -> newMarket.addCondition(Conditions.POPULATION_3)
+        4 -> newMarket.addCondition(Conditions.POPULATION_4)
+        5 -> newMarket.addCondition(Conditions.POPULATION_5)
+        6 -> newMarket.addCondition(Conditions.POPULATION_6)
+        7 -> newMarket.addCondition(Conditions.POPULATION_7)
+        8 -> newMarket.addCondition(Conditions.POPULATION_8)
+        9 -> newMarket.addCondition(Conditions.POPULATION_9)
+        10 -> newMarket.addCondition(Conditions.POPULATION_10)
+    }
     for (condition in params.marketConditions) {
         newMarket.addCondition(condition)
     }
 
+    newMarket.addIndustry(Industries.POPULATION)
+    newMarket.addIndustry(Industries.SPACEPORT)
     for (industry in params.industries) {
         newMarket.addIndustry(industry)
     }

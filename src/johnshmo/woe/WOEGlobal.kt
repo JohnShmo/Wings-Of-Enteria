@@ -18,7 +18,6 @@ class WOEGlobal private constructor() {
         private const val GENERATOR_ID = "generator"
         private const val CAMPAIGN_ID = "campaignPlugin"
 
-        @JvmStatic
         fun initialize() {
             logger.info("Initializing...")
             generator.initialize()

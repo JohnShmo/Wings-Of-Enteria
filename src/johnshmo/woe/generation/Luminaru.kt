@@ -1,10 +1,8 @@
 package johnshmo.woe.generation
 
-import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.SpecialItemData
-import com.fs.starfarer.api.campaign.SpecialItemSpecAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.Items
@@ -13,17 +11,17 @@ import com.fs.starfarer.api.impl.campaign.ids.StarTypes
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets
 import com.fs.starfarer.api.impl.campaign.ids.Terrain
 import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor
-import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.AICores
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.MarketplaceParams
 import johnshmo.woe.WOECustomEntities
 import johnshmo.woe.WOEFactions
+import johnshmo.woe.WOESettings
 import johnshmo.woe.createMarketplace
 import java.awt.Color
 
-class NewEnteria : StarSystemGenerator() {
+class Luminaru : StarSystemGenerator() {
     override val id: String
         get() = ID
     override val name: String
@@ -58,17 +56,19 @@ class NewEnteria : StarSystemGenerator() {
 
     private fun generateStar() {
         val generatedStar = "generatedStar"
-        val starType = StarTypes.BROWN_DWARF
-        val starRadius = 700f
-        val coronaSize = 100f
+        val starType = StarTypes.WHITE_DWARF
+        val starRadius = 720f
+        val coronaSize = 200f
         if (!data.contains(generatedStar)) {
-            system.initStar(
+            data[generatedStar] = true
+            val star = system.initStar(
                 STAR_ID,
                 starType,
                 starRadius,
                 coronaSize,
             )
-            data[generatedStar] = true
+            star.lightColorOverrideIfStar = Color(0xC0, 0xF0, 0xFF)
+            system.lightColor = Color(0xC0, 0xF0, 0xFF)
         }
     }
 
@@ -76,19 +76,21 @@ class NewEnteria : StarSystemGenerator() {
         val generatedAlice = "generatedAlice"
         val name = "Alice"
         val type = Planets.ROCKY_UNSTABLE
-        val radius = 80f
+        val radius = 120f
         val angle = 120f
-        val orbitRadius = 2120f
+        val orbitRadius = 2250f
         val orbitDays = 90f
 
         val moonName = "Molly"
         val moonType = Planets.ROCKY_METALLIC
-        val moonRadius = 45f
+        val moonRadius = 60f
         val moonAngle = 90f
-        val moonOrbitRadius = 400f
+        val moonOrbitRadius = 500f
         val moonOrbitDays = 12f
 
         if (!data.contains(generatedAlice)) {
+            data[generatedAlice] = true
+
             val alice = system.addPlanet(
                 ALICE_ID,
                 star,
@@ -123,70 +125,103 @@ class NewEnteria : StarSystemGenerator() {
                 moonOrbitRadius,
                 moonOrbitDays,
             )
-
-            data[generatedAlice] = true
         }
     }
 
     private fun generateWingsOfEnteria() {
         val generatedWingsOfEnteria = "generatedWingsOfEnteria"
         if (!data.contains(generatedWingsOfEnteria)) {
+            data[generatedWingsOfEnteria] = true
+
             val wingsOfEnteria = system.addCustomEntity(
                 WINGS_OF_ENTERIA_ID,
                 "Wings of Enteria",
                 WOECustomEntities.WINGS_OF_ENTERIA,
                 WOEFactions.ENTERIAN_FRAGMENT
             )
-            wingsOfEnteria.setCircularOrbitPointingDown(star, 10f, 3000f, 200f)
+            wingsOfEnteria.setCircularOrbit(star, 10f, 3000f, 200f)
 
-            val market = createMarketplace(MarketplaceParams(
-                WOEFactions.ENTERIAN_FRAGMENT,
-                wingsOfEnteria,
-                listOf(),
-                "Wings of Enteria",
-                6,
-                listOf(
-                    Conditions.POPULATION_6,
-                    Conditions.ORE_RICH,
-                    Conditions.RARE_ORE_RICH,
-                    Conditions.VOLATILES_ABUNDANT,
-                    Conditions.POLLUTION
-                ),
-                listOf(
-                    Industries.POPULATION,
-                    Industries.SPACEPORT,
+            val marketSize = WOESettings.wingsOfEnteriaPopulationSize
+            val industries = when (marketSize) {
+                4 -> listOf(
+                    Industries.GROUNDDEFENSES,
+                    Industries.ORBITALSTATION_MID,
+                    Industries.MINING,
+                    Industries.HEAVYINDUSTRY,
+                    Industries.PATROLHQ
+                )
+
+                5 -> listOf(
+                    Industries.GROUNDDEFENSES,
+                    Industries.BATTLESTATION_MID,
+                    Industries.MINING,
+                    Industries.REFINING,
+                    Industries.HEAVYINDUSTRY,
+                    Industries.PATROLHQ
+                )
+
+                in 6..10 -> listOf(
                     Industries.HEAVYBATTERIES,
                     Industries.STARFORTRESS_MID,
                     Industries.MINING,
                     Industries.REFINING,
                     Industries.ORBITALWORKS,
                     Industries.HIGHCOMMAND
-                ),
-                listOf(
-                    Submarkets.SUBMARKET_STORAGE,
-                    Submarkets.GENERIC_MILITARY,
-                    Submarkets.SUBMARKET_OPEN,
-                    Submarkets.SUBMARKET_BLACK
                 )
-            ))
 
-            market.getIndustry(Industries.ORBITALWORKS).specialItem = SpecialItemData(
-                Items.CORRUPTED_NANOFORGE,
-                null
+                else -> listOf(
+                    Industries.GROUNDDEFENSES,
+                    Industries.ORBITALSTATION_MID,
+                    Industries.MINING,
+                    Industries.PATROLHQ
+                )
+            }
+
+            val market = createMarketplace(
+                MarketplaceParams(
+                    WOEFactions.ENTERIAN_FRAGMENT,
+                    wingsOfEnteria,
+                    listOf(),
+                    "Wings of Enteria",
+                    marketSize,
+                    listOf(
+                        Conditions.ORE_RICH,
+                        Conditions.RARE_ORE_RICH,
+                        Conditions.VOLATILES_ABUNDANT,
+                        Conditions.POLLUTION
+                    ),
+                    industries,
+                    listOf(
+                        Submarkets.SUBMARKET_STORAGE,
+                        Submarkets.GENERIC_MILITARY,
+                        Submarkets.SUBMARKET_OPEN,
+                        Submarkets.SUBMARKET_BLACK
+                    )
+                )
             )
-            market.getIndustry(Industries.MINING).aiCoreId = "gamma_core"
-            market.getIndustry(Industries.ORBITALWORKS).aiCoreId = "gamma_core"
 
-            data[generatedWingsOfEnteria] = true
+            val heavyIndustry = when (marketSize) {
+                in 4..5 -> Industries.HEAVYINDUSTRY
+                in 6..10 -> Industries.ORBITALWORKS
+                else -> null
+            }
+            if (heavyIndustry != null) {
+                market.getIndustry(heavyIndustry).specialItem = SpecialItemData(
+                    Items.CORRUPTED_NANOFORGE,
+                    null
+                )
+                market.getIndustry(heavyIndustry).aiCoreId = "gamma_core"
+            }
+            market.getIndustry(Industries.MINING).aiCoreId = "gamma_core"
         }
     }
 
     private fun generateHyperspace() {
-        val hyperspaceVersionId = "hyperspace_version_1"
-        val hyperspaceLocationX = 2500f
-        val hyperspaceLocationY = -7400f
-        if (!data.contains(hyperspaceVersionId)) {
-            resetHyperspace()
+        val generatedHyperspace = "generatedHyperspace"
+        val hyperspaceLocationX = WOESettings.luminaruHyperspaceLocationX
+        val hyperspaceLocationY = WOESettings.luminaruHyperspaceLocationY
+        if (!data.contains(generatedHyperspace)) {
+            data[generatedHyperspace] = true
             system.location.set(hyperspaceLocationX, hyperspaceLocationY)
             system.generateAnchorIfNeeded()
             system.autogenerateHyperspaceJumpPoints(true, true)
@@ -196,13 +231,12 @@ class NewEnteria : StarSystemGenerator() {
             val radius = system.maxRadiusInHyperspace
             editor.clearArc(system.location.x, system.location.y, 0f, radius + minRadius, 0f, 360f)
             editor.clearArc(system.location.x, system.location.y, 0f, radius + minRadius, 0f, 360f, 0.25f)
-            data[hyperspaceVersionId] = true
         }
     }
 
     companion object {
-        private const val ID = "woe_new_enteria"
-        private const val NAME = "New Enteria"
+        private const val ID = "woe_luminaru"
+        private const val NAME = "Luminaru"
         private const val STAR_ID = ID + "_star"
         private const val ALICE_ID = ID + "_alice"
         private const val ALICE_MOLLY_ID = ALICE_ID + "_molly"
