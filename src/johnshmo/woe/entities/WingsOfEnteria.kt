@@ -62,7 +62,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         ensureTransientVals()
         updateGlowEffects(amount)
 
-        val angleToFocus = Misc.getAngleInDegrees(entity.location, entity.orbitFocus.location);
+        val angleToFocus = Misc.getAngleInDegrees(entity.location, entity.orbitFocus.location)
         entity.facing = (angleToFocus + 180f) - 36.5f
     }
 
