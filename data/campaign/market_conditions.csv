@@ -1,0 +1,2 @@
+name,id,tags,planetary,decivRemove,script,desc,icon,order
+Mantle Tap,woe_mantle_tap,,,,johnshmo.woe.econ.MantleTap,"Rich minerals, transplutonic ore, and volatile deposits can be extracted by the massive mining laser array of $market. Adds a healthy demand for refined transplutonics to power the gargantuan structure.",graphics/wings_of_enteria/icons/markets/mantle_tap.png,50

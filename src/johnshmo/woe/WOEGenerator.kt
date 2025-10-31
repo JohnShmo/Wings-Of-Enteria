@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import exerelin.campaign.SectorManager
 import johnshmo.woe.generation.Luminaru
-import johnshmo.woe.generation.StarSystemGenerator
+import johnshmo.woe.generation.WOEStarSystem
 
 
 class WOEGenerator {
@@ -68,10 +68,10 @@ class WOEGenerator {
             return getOrMakeStarSystem("newEnteria") { Luminaru() } as Luminaru
         }
 
-    private fun getOrMakeStarSystem(id: String, factory: () -> StarSystemGenerator): StarSystemGenerator {
+    private fun getOrMakeStarSystem(id: String, factory: () -> WOEStarSystem): WOEStarSystem {
         if (!data.contains(id)) {
             data[id] = factory()
         }
-        return (data[id] as StarSystemGenerator)
+        return (data[id] as WOEStarSystem)
     }
 }

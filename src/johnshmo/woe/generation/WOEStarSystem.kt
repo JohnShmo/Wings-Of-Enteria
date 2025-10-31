@@ -6,7 +6,7 @@ import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.WOEGlobal
 
 
-abstract class StarSystemGenerator {
+abstract class WOEStarSystem {
     @Transient
     private var cachedSystem: StarSystemAPI? = null
 

@@ -5,6 +5,7 @@ import com.fs.starfarer.api.campaign.CampaignEngineLayers
 import com.fs.starfarer.api.combat.ViewportAPI
 import com.fs.starfarer.api.graphics.SpriteAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
+import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.CachedSprite
 import johnshmo.woe.InterpolatedFloat
@@ -55,7 +56,6 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
     @Transient private var ringLightTimer: Float? = null
     @Transient private var blinkTimer: Float? = null
     @Transient private var engineTimer: Float? = null
-    @Transient private var laserTimer: Float? = null
 
     fun ensureTransientVals() {
         if (blinkGreenFader == null) blinkGreenFader = InterpolatedFloat(0f, 0.75f) { x: Float -> easeInOutElastic(x) }
@@ -72,7 +72,6 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         if (ringLightTimer == null) ringLightTimer = 0.0f
         if (blinkTimer == null) blinkTimer = 0.0f
         if (engineTimer == null) engineTimer = 0.0f
-        if (laserTimer == null) laserTimer = 0.0f
     }
 
     override fun getRenderRange(): Float {
@@ -88,20 +87,32 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         val angleToFocus = Misc.getAngleInDegrees(entity.location, entity.orbitFocus.location)
         entity.facing = (angleToFocus + 180f) - 36.5f
 
-        laserTimer = laserTimer!! + amount * 0.1f
-        if (laserTimer!! >= 1.0f) {
-            laserTimer = laserTimer!! - 1.0f
-
-            if (laser.state == CampaignLaser.State.INACTIVE) {
-                laser.activate()
-            } else {
+        val market = entity.market
+        if (market == null || market.size <= 0) {
+            laser.deactivate()
+        } else {
+            val miningIndustry = market.getIndustry(Industries.MINING)
+            if (miningIndustry == null || !miningIndustry.isFunctional) {
                 laser.deactivate()
+            } else {
+                laser.activate()
             }
         }
+
         laser.advance(amount)
     }
 
     private fun updateGlowEffects(amount: Float) {
+        val market = entity.market
+        if (market == null || market.size <= 0) {
+            blinkGreenFader!!.set(0f, 1f)
+            blinkYellowFader!!.set(0f, 1f)
+            engineGlowFader!!.set(0f, 1f)
+            for (rl in ringLightFaders!!) {
+                rl.set(0f, 1f)
+            }
+        }
+
         ringLightTimer = ringLightTimer!!.plus(amount * 0.75f)
         ringLightTimer?.let {
             if (it >= 1.0f) {

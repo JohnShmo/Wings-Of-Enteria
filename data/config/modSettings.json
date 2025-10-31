@@ -1,7 +1,12 @@
 {
-  "wings_of_enteria": {
+  "wingsOfEnteria": {
     "luminaruHyperspaceLocationX": 2500,
     "luminaruHyperspaceLocationY": -5400,
-    "wingsOfEnteriaPopulationSize": 6
+    "huxleyPopulationSize": 4,
+    "wingsOfEnteriaPopulationSize": 6,
+    "mantleTapOreBonus": 2,
+    "mantleTapRareOreBonus": 2,
+    "mantleTapVolatilesBonus": 2,
+    "mantleTapTransplutonicsBaseDemand": 2
   }
 }

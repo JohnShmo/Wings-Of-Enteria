@@ -7,7 +7,7 @@ class WOEModPlugin : BaseModPlugin() {
     @Throws(Exception::class)
     override fun onApplicationLoad() {
         MagicSettings.loadModSettings()
-        WOESettings.loadFromJSON(MagicSettings.modSettings.getJSONObject("wings_of_enteria"))
+        WOESettings.loadFromJSON(MagicSettings.modSettings?.getJSONObject("wingsOfEnteria"))
     }
 
     override fun onNewGame() {
