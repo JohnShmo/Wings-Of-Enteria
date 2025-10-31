@@ -2,6 +2,7 @@ package johnshmo.woe.econ
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition
+import com.fs.starfarer.api.impl.campaign.econ.ResourceDepositsCondition
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.ui.TooltipMakerAPI
@@ -111,5 +112,11 @@ class MantleTap : BaseHazardCondition() {
             bonusStr = "-$bonus"
         }
         return bonusStr
+    }
+
+    companion object {
+        init {
+            ResourceDepositsCondition.COMMODITY["woe_mantle_tap"] = Commodities.ORE
+        }
     }
 }

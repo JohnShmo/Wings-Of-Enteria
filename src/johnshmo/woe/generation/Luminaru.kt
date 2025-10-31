@@ -100,7 +100,7 @@ class Luminaru : WOEStarSystem() {
         val type = Planets.ROCKY_UNSTABLE
         val radius = 120f
         val angle = 120f
-        val orbitRadius = 2250f
+        val orbitRadius = 2000f
         val orbitDays = 90f
 
         val moonName = "Molly"
@@ -497,17 +497,15 @@ class Luminaru : WOEStarSystem() {
                 Entities.COMM_RELAY,
                 WOEFactions.ENTERIAN_FRAGMENT
             )
-            comRelay.setCircularOrbit(star, 230f, 3000f, 117f)
+            comRelay.setCircularOrbit(star, 35f + 180f, 2500f, 200f)
 
             val azureJumpPoint = Global.getFactory().createJumpPoint(ID + "_azure_jump_point", "Azure Jump-point")
             system.addEntity(azureJumpPoint)
-            azureJumpPoint.relatedPlanet = azureNexus
-            azureJumpPoint.setCircularOrbit(star, 20f, 3400f, 200f)
+            azureJumpPoint.setCircularOrbit(star, 45f, 2500f, 200f)
 
             val enteriaJumpPoint = Global.getFactory().createJumpPoint(ID + "_enteria_jump_point", "Enteria Jump-point")
             system.addEntity(enteriaJumpPoint)
-            enteriaJumpPoint.relatedPlanet = tura
-            enteriaJumpPoint.setCircularOrbit(star,  70f, 10500f, 520f)
+            enteriaJumpPoint.setCircularOrbit(star,  100f, 10500f, 520f)
 
             val sensorArray = system.addCustomEntity(
                 ID + "_" + Entities.SENSOR_ARRAY,
