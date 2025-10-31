@@ -21,7 +21,8 @@
       "station"
     ],
     "layers": [
-      STATIONS
+      STATIONS,
+      BELOW_STATIONS,
     ],
     "pluginClass": "johnshmo.woe.entities.WingsOfEnteria"
   }

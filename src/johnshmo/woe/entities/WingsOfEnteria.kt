@@ -10,8 +10,11 @@ import johnshmo.woe.CachedSprite
 import johnshmo.woe.InterpolatedFloat
 import johnshmo.woe.easeInOutElastic
 import johnshmo.woe.easeInQuad
+import johnshmo.woe.effects.CampaignLaser
+import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.MathUtils.clamp
 import org.lwjgl.util.vector.Vector2f
+import java.awt.Color
 
 class WingsOfEnteria : BaseCustomEntityPlugin() {
     private val blinkGreen = CachedSprite(CATEGORY, BLINK_GREEN_ID)
@@ -31,6 +34,20 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         CachedSprite(CATEGORY, RING_IDS[10]),
     )
 
+    private val laser = CampaignLaser(
+        LASER_CATEGORY,
+        LASER_CORE_ID,
+        LASER_CATEGORY,
+        LASER_FRINGE_ID,
+        Color(0xFF, 0xFF, 0xFF, 0xEE),
+        Color(0xFF, 0x2F, 0x2F, 0xFF),
+        16f,
+        64f,
+        0.5f,
+        -0.25f,
+        1.0f,
+        0.5f
+    )
     @Transient private var blinkGreenFader: InterpolatedFloat? = null
     @Transient private var blinkYellowFader: InterpolatedFloat? = null
     @Transient private var engineGlowFader: InterpolatedFloat? = null
@@ -38,6 +55,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
     @Transient private var ringLightTimer: Float? = null
     @Transient private var blinkTimer: Float? = null
     @Transient private var engineTimer: Float? = null
+    @Transient private var laserTimer: Float? = null
 
     fun ensureTransientVals() {
         if (blinkGreenFader == null) blinkGreenFader = InterpolatedFloat(0f, 0.75f) { x: Float -> easeInOutElastic(x) }
@@ -54,6 +72,11 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         if (ringLightTimer == null) ringLightTimer = 0.0f
         if (blinkTimer == null) blinkTimer = 0.0f
         if (engineTimer == null) engineTimer = 0.0f
+        if (laserTimer == null) laserTimer = 0.0f
+    }
+
+    override fun getRenderRange(): Float {
+        return 1_000_000f
     }
 
     override fun advance(amount: Float) {
@@ -64,6 +87,18 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
 
         val angleToFocus = Misc.getAngleInDegrees(entity.location, entity.orbitFocus.location)
         entity.facing = (angleToFocus + 180f) - 36.5f
+
+        laserTimer = laserTimer!! + amount * 0.1f
+        if (laserTimer!! >= 1.0f) {
+            laserTimer = laserTimer!! - 1.0f
+
+            if (laser.state == CampaignLaser.State.INACTIVE) {
+                laser.activate()
+            } else {
+                laser.deactivate()
+            }
+        }
+        laser.advance(amount)
     }
 
     private fun updateGlowEffects(amount: Float) {
@@ -117,9 +152,26 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
     }
 
     override fun render(layer: CampaignEngineLayers?, viewport: ViewportAPI?) {
-        if (layer != CampaignEngineLayers.STATIONS) return
         ensureTransientVals()
-        renderGlowEffects()
+
+        if (layer == CampaignEngineLayers.BELOW_STATIONS) {
+            val laserOffset = Misc.rotateAroundOrigin(Vector2f(8f, -25f), entity.facing - 96)
+            val origin = Vector2f.add(entity.location, laserOffset, null)
+
+            val angleToFocus = Misc.getAngleInDegrees(origin, entity.orbitFocus.location)
+
+            val target =  MathUtils.getPointOnCircumference(
+                entity.orbitFocus.location,
+                entity.orbitFocus.radius,
+                angleToFocus + 180f
+            )
+
+            laser.render(origin, target)
+        }
+
+        if (layer == CampaignEngineLayers.STATIONS) {
+            renderGlowEffects()
+        }
     }
 
     private fun renderGlowEffects() {
@@ -191,5 +243,8 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
             "wings_of_enteria_ring_09",
             "wings_of_enteria_ring_10",
         )
+        private const val LASER_CATEGORY = "woe_effects"
+        private const val LASER_CORE_ID = "wings_of_enteria_laser_core"
+        private const val LASER_FRINGE_ID = "wings_of_enteria_laser_fringe"
     }
 }

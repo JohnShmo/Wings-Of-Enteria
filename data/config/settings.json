@@ -19,6 +19,10 @@
       "wings_of_enteria_ring_08": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_08.png",
       "wings_of_enteria_ring_09": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_09.png",
       "wings_of_enteria_ring_10": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_10.png"
+    },
+    "woe_effects": {
+      "wings_of_enteria_laser_core": "graphics/fx/beam_weave_core.png",
+      "wings_of_enteria_laser_fringe": "graphics/fx/beam_weave_fringe.png"
     }
   },
   "designTypeColors": {
