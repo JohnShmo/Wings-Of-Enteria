@@ -304,7 +304,7 @@ class Luminaru : WOEStarSystem() {
         val orbitDays = 520f
 
         val moonName = "Kira"
-        val moonType = Planets.PLANET_LAVA
+        val moonType = Planets.PLANET_LAVA_MINOR
         val moonRadius = 100f
         val moonAngle = 90f
         val moonOrbitRadius = 1400f

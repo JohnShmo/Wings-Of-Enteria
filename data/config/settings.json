@@ -20,9 +20,14 @@
       "wings_of_enteria_ring_09": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_09.png",
       "wings_of_enteria_ring_10": "graphics/wings_of_enteria/stations/wings_of_enteria_ring_10.png"
     },
-    "woe_effects": {
+    "woe_fx": {
       "wings_of_enteria_laser_core": "graphics/fx/beam_weave_core.png",
-      "wings_of_enteria_laser_fringe": "graphics/fx/beam_weave_fringe.png"
+      "wings_of_enteria_laser_fringe": "graphics/fx/beam_weave_fringe.png",
+      "mantle_tap_bright_spot": "graphics/wings_of_enteria/fx/mantle_tap_bright_spot.png",
+      "mantle_tap_rim_light": "graphics/wings_of_enteria/fx/mantle_tap_rim_light.png",
+      "mantle_tap_scorch_marks": "graphics/wings_of_enteria/fx/mantle_tap_scorch_marks.png",
+      "mantle_tap_cracks_1": "graphics/wings_of_enteria/fx/mantle_tap_cracks_1.png",
+      "mantle_tap_cracks_2": "graphics/wings_of_enteria/fx/mantle_tap_cracks_2.png"
     }
   },
   "designTypeColors": {

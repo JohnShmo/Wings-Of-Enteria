@@ -3,7 +3,8 @@ package johnshmo.woe
 import kotlin.math.max
 import kotlin.math.min
 
-class InterpolatedFloat(initialValue: Float, var duration: Float, var curveFunction: CurveFunction? = null) {
+class InterpolatedFloat(initialValue: Float, var curveFunction: CurveFunction? = null) {
+    var duration = 1.0f
     private var startValue = initialValue
     private var backingTargetValue: Float = initialValue
     val value: Float

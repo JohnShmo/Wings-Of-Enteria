@@ -2,6 +2,7 @@ package johnshmo.woe.entities
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CampaignEngineLayers
+import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.combat.ViewportAPI
 import com.fs.starfarer.api.graphics.SpriteAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
@@ -12,6 +13,7 @@ import johnshmo.woe.InterpolatedFloat
 import johnshmo.woe.easeInOutElastic
 import johnshmo.woe.easeInQuad
 import johnshmo.woe.effects.CampaignLaser
+import johnshmo.woe.effects.MantleTapEffect
 import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.MathUtils.clamp
 import org.lwjgl.util.vector.Vector2f
@@ -49,6 +51,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         1.0f,
         0.5f
     )
+    private val mantleTapEffect = MantleTapEffect()
     @Transient private var blinkGreenFader: InterpolatedFloat? = null
     @Transient private var blinkYellowFader: InterpolatedFloat? = null
     @Transient private var engineGlowFader: InterpolatedFloat? = null
@@ -58,14 +61,14 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
     @Transient private var engineTimer: Float? = null
 
     fun ensureTransientVals() {
-        if (blinkGreenFader == null) blinkGreenFader = InterpolatedFloat(0f, 0.75f) { x: Float -> easeInOutElastic(x) }
-        if (blinkYellowFader == null) blinkYellowFader = InterpolatedFloat(0f, 0.75f) { x: Float -> easeInOutElastic(x) }
-        if (engineGlowFader == null) engineGlowFader = InterpolatedFloat(0f, 1.0f) { x: Float -> easeInOutElastic(x) }
+        if (blinkGreenFader == null) blinkGreenFader = InterpolatedFloat(0f) { x: Float -> easeInOutElastic(x) }
+        if (blinkYellowFader == null) blinkYellowFader = InterpolatedFloat(0f) { x: Float -> easeInOutElastic(x) }
+        if (engineGlowFader == null) engineGlowFader = InterpolatedFloat(0f) { x: Float -> easeInOutElastic(x) }
         if (ringLightFaders == null) {
             ringLightFaders = ArrayList(11)
             var i = 0
             while (i < ringLights.size) {
-                ringLightFaders!!.add(InterpolatedFloat(0f, 0.1f) { x: Float -> easeInQuad(x) })
+                ringLightFaders!!.add(InterpolatedFloat(0f) { x: Float -> easeInQuad(x) })
                 i++
             }
         }
@@ -85,7 +88,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         updateGlowEffects(amount)
 
         val angleToFocus = Misc.getAngleInDegrees(entity.location, entity.orbitFocus.location)
-        entity.facing = (angleToFocus + 180f) - 35f
+        entity.facing = (angleToFocus + 180f) - 34f
 
         val market = entity.market
         if (market == null || market.size <= 0) {
@@ -100,6 +103,12 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         }
 
         laser.advance(amount)
+
+        val laserOffset = Misc.rotateAroundOrigin(Vector2f(8f, -25f), entity.facing - 96)
+        val origin = Vector2f.add(entity.location, laserOffset, null)
+        val angleToFocusLaser = Misc.getAngleInDegrees(origin, entity.orbitFocus.location)
+        mantleTapEffect.intensity = laser.intensity
+        mantleTapEffect.advance(amount, entity.orbitFocus as PlanetAPI, angleToFocusLaser + 180f)
     }
 
     private fun updateGlowEffects(amount: Float) {
@@ -178,6 +187,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
             )
 
             laser.render(origin, target)
+            mantleTapEffect.render(entity.orbitFocus as PlanetAPI, angleToFocus + 180f)
         }
 
         if (layer == CampaignEngineLayers.STATIONS) {
@@ -254,7 +264,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
             "wings_of_enteria_ring_09",
             "wings_of_enteria_ring_10",
         )
-        private const val LASER_CATEGORY = "woe_effects"
+        private const val LASER_CATEGORY = "woe_fx"
         private const val LASER_CORE_ID = "wings_of_enteria_laser_core"
         private const val LASER_FRINGE_ID = "wings_of_enteria_laser_fringe"
     }
