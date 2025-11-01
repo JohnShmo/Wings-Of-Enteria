@@ -90,7 +90,7 @@ class MantleTapEffect {
         rimLight.alphaMult = rimLightFader * (1.0f - Misc.random.nextFloat() * 0.025f)
 
         scorchMarks.setAdditiveBlend()
-        scorchMarks.color = Color(255, 200, 200)
+        scorchMarks.color = Color(255, (200 * scorchMarksFader.value).toInt(), (200 * scorchMarksFader.value).toInt())
         scorchMarks.alphaMult = scorchMarksFader.value
 
         cracks1.setAdditiveBlend()
@@ -98,7 +98,7 @@ class MantleTapEffect {
         cracks1.alphaMult = cracks1Fader.value * (1.0f - Misc.random.nextFloat() * 0.025f)
 
         cracks2.setAdditiveBlend()
-        cracks2.color = Color(150, 60, 0)
+        cracks2.color = Color(180, 60, 0)
         cracks2.alphaMult = cracks2Fader.value * (1.0f - Misc.random.nextFloat() * 0.05f)
 
         val planetSize = target.radius * 2
