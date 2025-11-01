@@ -205,8 +205,6 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         }
         val location = entity.location
         val facing = entity.facing - 90
-        val width = 256f
-        val height = 256f
 
         engineGlowSprite.setAdditiveBlend()
         engineGlowSprite.alphaMult = clamp(
@@ -214,7 +212,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
             0f,
             1f
         )
-        renderSprite(engineGlowSprite, location, facing, width, height)
+        renderSprite(engineGlowSprite, location, facing)
 
         blinkYellowSprite.setAdditiveBlend()
         blinkYellowSprite.alphaMult = clamp(
@@ -222,7 +220,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
             0f,
             1f
         )
-        renderSprite(blinkYellowSprite, location, facing, width, height)
+        renderSprite(blinkYellowSprite, location, facing)
 
         blinkGreenSprite.setAdditiveBlend()
         blinkGreenSprite.alphaMult = clamp(
@@ -230,16 +228,18 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
             0f,
             1f
         )
-        renderSprite(blinkGreenSprite, location, facing, width, height)
+        renderSprite(blinkGreenSprite, location, facing)
 
         for (i in ringLightSprites.indices) {
             ringLightSprites[i].setAdditiveBlend()
             ringLightSprites[i].alphaMult = ringLightFaders!![i].value
-            renderSprite(ringLightSprites[i], location, facing, width, height)
+            renderSprite(ringLightSprites[i], location, facing)
         }
     }
 
-    private fun renderSprite(sprite: SpriteAPI, location: Vector2f, facing: Float, width: Float, height: Float) {
+    private fun renderSprite(sprite: SpriteAPI, location: Vector2f, facing: Float) {
+        val width = entity.customEntitySpec.spriteWidth
+        val height = entity.customEntitySpec.spriteHeight
         sprite.setSize(width, height)
         sprite.setCenter(width / 2, height / 2)
         sprite.angle = facing
