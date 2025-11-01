@@ -35,7 +35,7 @@ class MantleTapEffect {
             cracks2Fader.set(0.0f, 15.0f)
         } else {
             brightSpotFader.set(1.0f, 1.0f)
-            scorchMarksFader.set(1.0f, 10.0f)
+            scorchMarksFader.set(1.0f, 20.0f)
             cracks1Fader.set(1.0f, 30.0f)
             cracks2Fader.set(1.0f, 40.0f)
 
