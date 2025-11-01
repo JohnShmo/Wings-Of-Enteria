@@ -6,6 +6,7 @@ import johnshmo.woe.CachedSprite
 import johnshmo.woe.InterpolatedFloat
 import johnshmo.woe.easeInCubic
 import johnshmo.woe.easeInQuad
+import johnshmo.woe.easeOutQuad
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
@@ -18,8 +19,8 @@ class MantleTapEffect {
     private val cachedCracks2 = CachedSprite(CATEGORY, CRACKS_2_ID)
 
     private var rimLightFader = 0.0f
-    private val brightSpotFader = InterpolatedFloat(0.0f) @JvmSerializableLambda { x: Float -> easeInQuad(x) }
-    private val scorchMarksFader = InterpolatedFloat(0.0f) @JvmSerializableLambda { x: Float -> easeInQuad(x) }
+    private val brightSpotFader = InterpolatedFloat(0.0f) @JvmSerializableLambda { x: Float -> easeOutQuad(x) }
+    private val scorchMarksFader = InterpolatedFloat(0.0f) @JvmSerializableLambda { x: Float -> easeInCubic(x) }
     private val cracks1Fader = InterpolatedFloat(0.0f) @JvmSerializableLambda { x: Float -> easeInCubic(x) }
     private val cracks2Fader = InterpolatedFloat(0.0f) @JvmSerializableLambda { x: Float -> easeInCubic(x) }
 
@@ -36,8 +37,8 @@ class MantleTapEffect {
         } else {
             brightSpotFader.set(1.0f, 1.0f)
             scorchMarksFader.set(1.0f, 20.0f)
-            cracks1Fader.set(1.0f, 30.0f)
-            cracks2Fader.set(1.0f, 40.0f)
+            cracks1Fader.set(1.0f, 25.0f)
+            cracks2Fader.set(1.0f, 25.0f)
 
             particleSpawnTimer += amount * 5.0f
             if (particleSpawnTimer >= 1.0f) {

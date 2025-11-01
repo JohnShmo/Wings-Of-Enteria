@@ -88,7 +88,7 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
         updateGlowEffects(amount)
 
         val angleToFocus = Misc.getAngleInDegrees(entity.location, entity.orbitFocus.location)
-        entity.facing = (angleToFocus + 180f) - 34f
+        entity.facing = (angleToFocus + 180f) - 33f
 
         val market = entity.market
         if (market == null || market.size <= 0) {
