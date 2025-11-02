@@ -4,6 +4,8 @@ import org.json.JSONObject
 
 class WOESettings {
     companion object {
+        var hasGraphicsLib = false
+
         var luminaruHyperspaceLocationX = 2500f
         var luminaruHyperspaceLocationY = -7400f
         var huxleyPopulationSize = 4

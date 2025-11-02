@@ -44,12 +44,12 @@
 	},
 	# ships the faction gets access to when importing S&W out-of-faction
 	"shipsWhenImporting":{
-		"tags":[],
+		"tags":["ind", "independent"],
 		"hulls":[
 		],
 	},
 	"knownShips":{
-		"tags":["ind", "independent"],
+		"tags":["woe_enterian"],
 		"hulls":[
 		],
 	},

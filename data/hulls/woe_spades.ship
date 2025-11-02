@@ -1,0 +1,181 @@
+{
+    "hullName": "Spades",
+    "hullId": "woe_spades",
+    "hullSize": "DESTROYER",
+    "style": "LOW_TECH",
+    "spriteName": "graphics/wings_of_enteria/ships/spades/spades.png",
+    "height": 146,
+    "width": 158,
+    "center": [
+        79, 73
+    ],
+    "collisionRadius": 127,
+    "coversColor": "",
+    "shieldCenter": [
+        6, 0
+    ],
+    "shieldRadius": 110,
+    "viewOffset": 0,
+    "builtInMods": [
+        "escort_package"
+    ],
+    "builtInWings": [],
+    "builtInModules": null,
+    "weaponSlots": [
+        {
+            "id": "WS 000",
+            "size": "MEDIUM",
+            "type": "HYBRID",
+            "mount": "HARDPOINT",
+            "arc": 5,
+            "angle": 0,
+            "locations": [
+                      41,      -48
+            ]
+        },
+        {
+            "id": "WS 001",
+            "size": "MEDIUM",
+            "type": "HYBRID",
+            "mount": "HARDPOINT",
+            "arc": 5,
+            "angle": 0,
+            "locations": [
+                      41,       48
+            ]
+        },
+        {
+            "id": "WS 002",
+            "size": "LARGE",
+            "type": "BALLISTIC",
+            "mount": "HARDPOINT",
+            "arc": 0,
+            "angle": 0,
+            "locations": [
+                      63,        0
+            ]
+        },
+        {
+            "id": "WS 003",
+            "size": "SMALL",
+            "type": "BALLISTIC",
+            "mount": "TURRET",
+            "arc": 125,
+            "angle": 26.5,
+            "locations": [
+                       9,       40
+            ]
+        },
+        {
+            "id": "WS 004",
+            "size": "SMALL",
+            "type": "BALLISTIC",
+            "mount": "TURRET",
+            "arc": 125,
+            "angle": 333.5,
+            "locations": [
+                       9,      -40
+            ]
+        },
+        {
+            "id": "WS 005",
+            "size": "SMALL",
+            "type": "BALLISTIC",
+            "mount": "TURRET",
+            "arc": 140,
+            "angle": 135,
+            "locations": [
+                     -37,       22
+            ]
+        },
+        {
+            "id": "WS 006",
+            "size": "SMALL",
+            "type": "BALLISTIC",
+            "mount": "TURRET",
+            "arc": 140,
+            "angle": 225,
+            "locations": [
+                     -37,      -22
+            ]
+        }
+    ],
+    "engineSlots": [
+        {
+            "location": [
+                -72, 29.5
+            ],
+            "length": 59,
+            "width": 12,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        },
+        {
+            "location": [
+                -72, -29.5
+            ],
+            "length": 59,
+            "width": 12,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        },
+        {
+            "location": [
+                -71.5, 16.5
+            ],
+            "length": 59,
+            "width": 12,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        },
+        {
+            "location": [
+                -71.5, -16.5
+            ],
+            "length": 59,
+            "width": 12,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        },
+        {
+            "location": [
+                -73.5, 0
+            ],
+            "length": 67.5,
+            "width": 18,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        }
+    ],
+    "bounds": [
+           -61.5,       35,
+           -13.5,     20.5,
+           -13.5,     55.5,
+             4.5,       73,
+              52,     72.5,
+        
+              60,     55.5,
+              46,     55.5,
+              46,       41,
+              60,       41,
+            65.5,     14.5,
+        
+            65.5,    -14.5,
+              60,      -41,
+              46,      -41,
+              46,    -55.5,
+              60,    -55.5,
+        
+              52,    -72.5,
+             4.5,      -73,
+           -13.5,    -55.5,
+           -13.5,    -20.5,
+           -61.5,      -35
+    # 20 points total.
+    ]
+}
