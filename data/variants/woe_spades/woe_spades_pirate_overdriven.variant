@@ -1,0 +1,38 @@
+{
+    "displayName": "Overdriven",
+    "fluxCapacitors": 0,
+    "fluxVents": 17,
+    "goalVariant": true,
+    "hullId": "woe_spades_pirate",
+    "hullMods": [
+        "safetyoverrides",
+        "auxiliarythrusters"
+    ],
+    "quality": 0.0,
+    "variantId": "woe_spades_pirate_overdriven",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "heavymg"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 000": "chaingun",
+                "WS 001": "chaingun"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 004": "lightdualmg",
+                "WS 003": "lightdualmg"
+            }
+        }
+    ]
+}

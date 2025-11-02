@@ -1,0 +1,19 @@
+{
+	"baseHullId":"woe_spades",
+	"skinHullId":"woe_spades_pirate",
+	"hullName":"Spades (P)",
+	"incompatibleWithBaseHull":false, # for the autofit dialog
+	"descriptionId":"woe_spades",
+	"descriptionPrefix":"This ship has been heavily modified - and poorly maintained - by its pirate crew.",
+	"tags":["pirate_bp"],
+	"tech":"Pirate",
+	"systemId":"burndrive",
+	"fleetPoints":12,
+	"ordnancePoints":95,
+	"baseValueMult":0.8,
+	"spriteName":"graphics/wings_of_enteria/ships/spades/spades_pirate.png",
+	"removeWeaponSlots":[], 		# ids
+	"removeEngineSlots":[], 		# indices, as engine slots have no id in the .ship file
+	"removeBuiltInMods":["escort_package"], 		# hullmod ids
+	"removeBuiltInWeapons":[], 		# weapon slot ids
+}
