@@ -16,7 +16,7 @@ class WOEModPlugin : BaseModPlugin() {
         if (hasGraphicsLib) {
             WOESettings.hasGraphicsLib = true
             ShaderLib.init()
-            TextureData.readTextureDataCSV("data/config/gfx/woe_spades_textures.csv")
+            TextureData.readTextureDataCSV("data/config/gfx/woe_ship_textures.csv")
         }
     }
 

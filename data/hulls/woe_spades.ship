@@ -2,19 +2,19 @@
     "hullName": "Spades",
     "hullId": "woe_spades",
     "hullSize": "DESTROYER",
-    "style": "LOW_TECH",
+    "style": "MIDLINE",
     "spriteName": "graphics/wings_of_enteria/ships/spades/spades.png",
     "height": 146,
     "width": 158,
     "center": [
         79, 73
     ],
-    "collisionRadius": 127,
+    "collisionRadius": 142.5,
     "coversColor": "",
     "shieldCenter": [
         6, 0
     ],
-    "shieldRadius": 110,
+    "shieldRadius": 118.5,
     "viewOffset": 0,
     "builtInMods": [
         "escort_package"

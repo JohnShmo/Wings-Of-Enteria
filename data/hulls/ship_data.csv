@@ -6,4 +6,4 @@ name,id,designation,tech/manufacturer,system id,fleet pts,hitpoints,armor rating
 #Manticore,manticore,Destroyer,Low Tech,canister_flak,12,5000,750,5000,4167,250,90,,80,70,50,30,50,400,OMNI,,150,0.4,1,,,50,80,80,50,2,25,9,45000,5,12,420,0.25,12,12,,,,,,,,"rare_bp, merc, ind",,,,0.4,2,3,,303.5
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Spades,woe_spades,Destroyer,Enterian Design,canister_flak,12,5200,800,6000,,300,95,,75,70,50,30,50,400,FRONT,,270,0.4,1.2,,,55,80,85,50,2,25,9,46500,5,12,420,0.25,12,12,,,,,,,,"rare_bp, woe_enterian",,,,0.4,2,3,,100000
+Spades,woe_spades,Destroyer,Enterian Design,canister_flak,12,5000,800,8000,,300,95,,75,70,50,30,50,400,FRONT,,270,0.4,1.2,,,55,80,85,50,2,25,9,46500,5,12,420,0.25,12,12,,,,,,,,"rare_bp, woe_enterian",,,,0.4,2,3,,100000

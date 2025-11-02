@@ -1,3 +1,7 @@
 id,type,text1,text2,text3,text4,notes
 # Types: WEAPON,SHIP,RESOURCE,CUSTOM,ACTION_TOOLTIP,ASTEROID,PLANET,SHIP_SYSTEM,FACTION,TERRAIN
-#astral,SHIP,"Text goes here",,,,
+#astral,SHIP,"Text goes here",,,,,,,
+woe_enterian_fragment,FACTION,"The Enterian Fragment are an enigmatic upstart within the Persian Sector. They are said to have appeared suddenly and without explanation - their only asset being a massive, half-destroyed generation ship called the Wings of Enteria. With just a few thousand passengers, they would've been annexed by the Hegemony if not for the Persian League's interference. In the following cycles, the Enterian Fragment attracted hundreds of thousands of independents to an ambitious reconstruction project - one that promised to transform the desolate generation vessel into a thriving colony.
+
+Having established themselves, their government remains secretive and exclusive. Only those that arrived in their initial pilgrimage are allowed anywhere near an official title or position. Enterians can be rather temperamental towards outsiders sticking their noses where they shouldn't be.",,,,,,,
+woe_spades,SHIP,"The Spades-class destroyer is a stand-out workhorse for the Enterian Fragment's navy. It serves as a practical - if logistically expensive - fire support vessel, standing side-by-side with larger line ships. The ship's versatility is somewhat hampered by its lack of missile mounts, thanks to the massive design tradeoffs that came with its oversized ballistic hardpoint.",,,,,,,

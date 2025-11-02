@@ -1,0 +1,80 @@
+{
+  "combatSmallForSmallFleet": {
+  },
+  "combatSmall": {
+  },
+  "combatMedium": {
+    "woe_spades_close_support": 10,
+    "woe_spades_fire_support": 10
+  },
+  "combatLarge": {
+  },
+  "combatCapital": {
+  },
+  "threatFabricator": {
+  },
+  "threatHive": {
+  },
+  "threatOverseer": {
+  },
+  "dwellerTendril": {
+  },
+  "dwellerMaelstrom": {
+  },
+  "dwellerEye": {
+  },
+  "dwellerMaw": {
+  },
+  "combatFreighterSmall": {
+  },
+  "combatFreighterMedium": {
+  },
+  "combatFreighterLarge": {
+  },
+  "civilianRandom": {
+  },
+  "carrierSmall": {
+  },
+  "carrierMedium": {
+  },
+  "carrierLarge": {
+  },
+  "phaseSmall": {
+  },
+  "phaseMedium": {
+  },
+  "phaseLarge": {
+  },
+  "phaseCapital": {
+  },
+  "freighterSmall": {
+  },
+  "freighterMedium": {
+  },
+  "freighterLarge": {
+  },
+  "tankerSmall": {
+  },
+  "tankerMedium": {
+  },
+  "tankerLarge": {
+  },
+  "personnelSmall": {
+  },
+  "personnelMedium": {
+  },
+  "personnelLarge": {
+  },
+  "linerSmall": {
+  },
+  "linerMedium": {
+  },
+  "linerLarge": {
+  },
+  "tug": {
+  },
+  "crig": {
+  },
+  "utility": {
+  }
+}
