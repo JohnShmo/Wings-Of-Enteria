@@ -31,6 +31,7 @@
     }
   },
   "designTypeColors": {
-    "Enterian Design": [210,180,190,255]
+    "Enterian Design": [210,180,190,255],
+    "Enterian Concord": [140,68,80,255]
   }
 }

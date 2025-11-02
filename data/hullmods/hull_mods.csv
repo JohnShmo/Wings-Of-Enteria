@@ -1,4 +1,7 @@
 name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sModDesc,sprite
 # Add your hullmods here. One left commented out for reference.
 # See: https://starsector.fandom.com/wiki/Hull_mods.csv
-# Accelerated Shields,advancedshieldemitter,0,,,"defensive, shields, merc, standard",Shields,3000,,,,3,6,9,15,data.hullmods.AcceleratedShieldEmitter,Increases the turn rate of the ship's shields by %s and the rate at which the shields are raised by %s.,Increases shield turn rate and extension speed.,Increases the shield's turn rate and raise rate by an additional %s.,graphics/hullmods/accelerated_shields.png
+Enterian Concord,woe_enterian_concord,0,,,defensive,,0,,TRUE,,0,0,0,0,johnshmo.woe.hullmods.EnterianConcord,"This ship has been modified with the esoteric manufacturing techniques of the Enterian Concord task group. Its specifications are nominally deviated from standard examples of this hull.
+
+Vessels with this modification gain a %s/%s/%s/%s increase to armor strength, depending on hull size. Flux capacity and throughput are improved by %s, and weapons with ammunition see a %s increase to their maximum charges. Thanks to these radical changes, however, the ship's 0-flux speed bonus is reduced by %s.
+",Increases defensive capabilities at the cost of a reduced 0-flux speed bonus.,,graphics/wings_of_enteria/hullmods/enterian_concord.png

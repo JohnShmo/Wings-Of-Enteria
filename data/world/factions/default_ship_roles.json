@@ -4,8 +4,9 @@
   "combatSmall": {
   },
   "combatMedium": {
-    "woe_spades_close_support": 10,
-    "woe_spades_fire_support": 10
+    "woe_spades_attack": 10,
+    "woe_spades_fire_support": 10,
+    "woe_spades_concord_elite": 5
   },
   "combatLarge": {
   },

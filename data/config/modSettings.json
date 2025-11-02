@@ -7,6 +7,10 @@
     "mantleTapOreBonus": 2,
     "mantleTapRareOreBonus": 2,
     "mantleTapVolatilesBonus": 2,
-    "mantleTapTransplutonicsBaseDemand": 2
+    "mantleTapTransplutonicsBaseDemand": 2,
+    "enterianConcordArmorBonuses": [50, 60, 70, 80],
+    "enterianConcordFluxBonusPercent": 8,
+    "enterianConcordAmmoCapacityBonusPercent": 20,
+    "enterianConcordZeroFluxSpeedPenaltyMult": 0.85
   }
 }

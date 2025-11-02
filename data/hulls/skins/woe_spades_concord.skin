@@ -1,0 +1,21 @@
+{
+	"baseHullId":"woe_spades",
+	"skinHullId":"woe_spades_concord",
+	"hullName":"Spades (EC)",
+	"incompatibleWithBaseHull":false, # for the autofit dialog
+	"descriptionId":"woe_spades",
+	"descriptionPrefix":"This ship has been modified with the esoteric manufacturing techniques of the Enterian Concord task group. Its specifications are nominally deviated from standard examples of this hull.",
+	"tags":["woe_enterian_concord"],
+	"tech":"Enterian Concord",
+	"fleetPoints":13,
+	"ordnancePoints":105,
+	"baseValueMult":1.5,
+	"spriteName":"graphics/wings_of_enteria/ships/spades/spades_concord.png",
+	"removeWeaponSlots":[], 		# ids
+	"removeEngineSlots":[], 		# indices, as engine slots have no id in the .ship file
+	"removeBuiltInMods":["escort_package"], 		# hullmod ids
+	"removeBuiltInWeapons":[], 		# weapon slot ids
+	"builtInMods":["woe_enterian_concord",],
+	"builtInWeapons":{
+    },
+}

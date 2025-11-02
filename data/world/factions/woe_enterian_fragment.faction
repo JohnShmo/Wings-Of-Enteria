@@ -49,7 +49,7 @@
 		],
 	},
 	"knownShips":{
-		"tags":["woe_enterian"],
+		"tags":["woe_enterian", "woe_enterian_concord"],
 		"hulls":[
 		],
 	},
@@ -108,7 +108,7 @@
 		"combatFreighterProbability":0.25,     				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":0.25,			# as part of the normal combat lineup
 		"combatFreighterCombatUseFractionWhenPriority":1,   # as part of normal combat lineup, when marked as priority ship
-		"autofitRandomizeProbability":0.1,
+		"autofitRandomizeProbability":0.05,
 
 		"commanderSkillsShuffleProbability":1,
 		"commanderSkills":[

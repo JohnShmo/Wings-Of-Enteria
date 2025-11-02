@@ -1,5 +1,5 @@
 {
-    "displayName": "Close Support",
+    "displayName": "Attack",
     "fluxCapacitors": 0,
     "fluxVents": 18,
     "goalVariant": true,
@@ -10,7 +10,7 @@
         "ballistic_rangefinder"
     ],
     "quality": 0.0,
-    "variantId": "woe_spades_close_support",
+    "variantId": "woe_spades_attack",
     "weaponGroups": [
         {
             "autofire": false,
