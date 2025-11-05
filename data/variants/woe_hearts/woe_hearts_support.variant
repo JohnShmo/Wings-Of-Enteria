@@ -1,0 +1,54 @@
+{
+    "displayName": "Support",
+    "fluxCapacitors": 20,
+    "fluxVents": 2,
+    "goalVariant": false,
+    "hullId": "woe_hearts",
+    "hullMods": [
+        "auxiliarythrusters",
+        "eccm",
+        "ecm"
+    ],
+    "quality": 0.0,
+    "variantId": "woe_hearts_support",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS 003": "pilum",
+                "WS 004": "pilum"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 007": "swarmer"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 005": "heatseeker",
+                "WS 006": "heatseeker"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "heavyburst"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "vulcan",
+                "WS 000": "vulcan"
+            }
+        }
+    ]
+}

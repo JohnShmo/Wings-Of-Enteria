@@ -1,0 +1,170 @@
+{
+    "hullName": "Hearts",
+    "hullId": "woe_hearts",
+    "hullSize": "DESTROYER",
+    "style": "MIDLINE",
+    "spriteName": "graphics/wings_of_enteria/ships/hearts/hearts.png",
+    "height": 141,
+    "width": 176,
+    "center": [
+        88, 70.5
+    ],
+    "collisionRadius": 134.5,
+    "coversColor": "",
+    "shieldCenter": [
+        0, 0
+    ],
+    "shieldRadius": 113,
+    "viewOffset": 0,
+    "builtInWings": [],
+    "builtInModules": null,
+    "weaponSlots": [
+        {
+            "id": "WS 000",
+            "size": "SMALL",
+            "type": "BALLISTIC",
+            "mount": "TURRET",
+            "arc": 225,
+            "angle": 160,
+            "locations": [
+                   -26.5,       46
+            ]
+        },
+        {
+            "id": "WS 001",
+            "size": "SMALL",
+            "type": "BALLISTIC",
+            "mount": "TURRET",
+            "arc": 225,
+            "angle": 200,
+            "locations": [
+                   -26.5,      -46
+            ]
+        },
+        {
+            "id": "WS 002",
+            "size": "MEDIUM",
+            "type": "ENERGY",
+            "mount": "TURRET",
+            "arc": 225,
+            "angle": 0,
+            "locations": [
+                    14.5,        0
+            ]
+        },
+        {
+            "id": "WS 003",
+            "size": "MEDIUM",
+            "type": "MISSILE",
+            "mount": "HARDPOINT",
+            "arc": 0,
+            "angle": 315,
+            "locations": [
+                   -19.5,      -72
+            ]
+        },
+        {
+            "id": "WS 004",
+            "size": "MEDIUM",
+            "type": "MISSILE",
+            "mount": "HARDPOINT",
+            "arc": 0,
+            "angle": 45,
+            "locations": [
+                   -19.5,       72
+            ]
+        },
+        {
+            "id": "WS 005",
+            "size": "SMALL",
+            "type": "MISSILE",
+            "mount": "HARDPOINT",
+            "arc": 0,
+            "angle": 0,
+            "locations": [
+                      67,      -22
+            ]
+        },
+        {
+            "id": "WS 006",
+            "size": "SMALL",
+            "type": "MISSILE",
+            "mount": "HARDPOINT",
+            "arc": 0,
+            "angle": 0,
+            "locations": [
+                      67,       22
+            ]
+        },
+        {
+            "id": "WS 007",
+            "size": "SMALL",
+            "type": "MISSILE",
+            "mount": "HARDPOINT",
+            "arc": 0,
+            "angle": 0,
+            "locations": [
+                      67,        0
+            ]
+        }
+    ],
+    "engineSlots": [
+        {
+            "location": [
+                -71, 47.5
+            ],
+            "length": 75,
+            "width": 16,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        },
+        {
+            "location": [
+                -71, -47.5
+            ],
+            "length": 75,
+            "width": 16,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        },
+        {
+            "location": [
+                -62, 32
+            ],
+            "length": 75,
+            "width": 16,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        },
+        {
+            "location": [
+                -62, -32
+            ],
+            "length": 75,
+            "width": 16,
+            "angle": 180,
+            "contrailSize": 12,
+            "style": "MIDLINE"
+        }
+    ],
+    "bounds": [
+           -51.5,        9,
+             -44,     28.5,
+             -57,     53.5,
+             -36,       72,
+            -7.5,       47,
+        
+            56.5,       19,
+            56.5,      -19,
+            -7.5,      -47,
+             -36,      -72,
+             -57,    -53.5,
+        
+             -44,    -28.5,
+           -51.5,       -9
+    # 12 points total.
+    ]
+}
