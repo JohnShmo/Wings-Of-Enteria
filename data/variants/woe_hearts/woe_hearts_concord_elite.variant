@@ -1,0 +1,49 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 13,
+    "fluxVents": 0,
+    "goalVariant": true,
+    "hullId": "woe_hearts_concord",
+    "hullMods": [
+        "targetingunit",
+        "eccm",
+        "ecm",
+        "auxiliarythrusters"
+    ],
+    "quality": 0.0,
+    "variantId": "woe_hearts_concord_elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "heavyblaster"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS 003": "sabotpod",
+                "WS 004": "sabotpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS 005": "reaper",
+                "WS 006": "reaper",
+                "WS 007": "reaper"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "vulcan",
+                "WS 000": "vulcan"
+            }
+        }
+    ]
+}

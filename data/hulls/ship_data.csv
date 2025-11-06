@@ -7,4 +7,4 @@ name,id,designation,tech/manufacturer,system id,fleet pts,hitpoints,armor rating
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Spades,woe_spades,Destroyer,Enterian Design,canister_flak,12,5000,800,8000,,300,95,,75,70,50,30,50,400,FRONT,,270,0.4,1.1,,,55,80,85,50,2,25,9,45000,5,12,420,0.25,12,12,,,,,,,,"rare_bp, woe_enterian",,,,0.4,2,3,,100000
-Hearts,woe_hearts,Missile Destroyer,Enterian Design,fastmissileracks,12,4800,700,5000,,200,90,,90,80,60,30,50,400,OMNI,,150,0.35,0.9,,,60,80,80,50,2,25,9,44000,5,12,420,0.25,11,11,,,,,,,,"rare_bp, woe_enterian",,,,0.4,2,3,,100001
+Hearts,woe_hearts,Missile Destroyer,Enterian Design,fastmissileracks,12,4800,600,3000,,200,90,,85,80,60,30,50,400,OMNI,,150,0.35,0.9,,,60,80,80,50,2,25,9,44000,5,12,420,0.25,12,12,,,,,,,,"rare_bp, woe_enterian",,,,0.4,2,3,,100001

@@ -7,12 +7,13 @@
     "woe_spades_attack": 10,
     "woe_spades_fire_support": 10,
     "woe_spades_outdated": 10,
-    "woe_spades_concord_elite": 5,
+    "woe_spades_concord_elite": 4,
     "woe_spades_pirate_outdated": 6,
     "woe_spades_pirate_overdriven": 4,
     "woe_hearts_rocket": 10,
     "woe_hearts_support": 10,
-    "woe_hearts_torpedo": 7
+    "woe_hearts_torpedo": 7,
+    "woe_hearts_concord_elite": 4
   },
   "combatLarge": {
   },

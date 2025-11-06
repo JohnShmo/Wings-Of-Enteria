@@ -11,3 +11,6 @@ woe_spades_pirate,ship,,1,material,graphics/wings_of_enteria/ships/spades/gfx/sp
 woe_hearts,ship,,1,normal,graphics/wings_of_enteria/ships/hearts/gfx/hearts_normal.png
 woe_hearts,ship,,1,surface,graphics/wings_of_enteria/ships/hearts/gfx/hearts_surface.png
 woe_hearts,ship,,1,material,graphics/wings_of_enteria/ships/hearts/gfx/hearts_material.png
+woe_hearts_concord,ship,,1,normal,graphics/wings_of_enteria/ships/hearts/gfx/hearts_normal.png
+woe_hearts_concord,ship,,1,surface,graphics/wings_of_enteria/ships/hearts/gfx/hearts_surface.png
+woe_hearts_concord,ship,,1,material,graphics/wings_of_enteria/ships/hearts/gfx/hearts_material.png
