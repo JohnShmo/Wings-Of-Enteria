@@ -21,6 +21,10 @@ class WOESettings {
         var enterianConcordAmmoCapacityBonusPercent = 20f
         var enterianConcordZeroFluxSpeedPenaltyMult = 0.85f
 
+        var shiftJumpChargeTimeDays = 10f
+        var shiftJumpChargeTransplutonicsPerDay = 5f
+        var shiftJumpCooldownDays = 10f
+
         fun loadFromJSON(json: JSONObject?) {
             json?.keys()?.forEach { key ->
                 when (key as String) {

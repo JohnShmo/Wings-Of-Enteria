@@ -51,7 +51,7 @@ class WOEGenerator {
                 enterianFragment.setRelationship(pirates.id, -0.5f)
                 enterianFragment.setRelationship(pathers.id, -0.5f)
                 enterianFragment.setRelationship(hegemony.id, -0.5f)
-                enterianFragment.setRelationship(league.id, 0.2f)
+                enterianFragment.setRelationship(league.id, 0.75f)
                 enterianFragment.setRelationship(derelict.id, -0.5f)
                 enterianFragment.setRelationship(remnant.id, -0.5f)
                 enterianFragment.setRelationship(omega.id, -0.5f)
