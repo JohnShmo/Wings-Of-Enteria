@@ -75,6 +75,8 @@ class Luminaru : WOEStarSystem() {
         generateTura()
         generateWingsOfEnteria()
         generateMisc()
+
+        registerCoreSystem()
     }
 
     private fun generateStar() {

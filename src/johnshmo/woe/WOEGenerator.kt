@@ -6,7 +6,6 @@ import exerelin.campaign.SectorManager
 import johnshmo.woe.generation.Luminaru
 import johnshmo.woe.generation.WOEStarSystem
 
-
 class WOEGenerator {
     private val data: MutableMap<String, Any> = HashMap()
 
@@ -65,7 +64,7 @@ class WOEGenerator {
 
     val luminaru: Luminaru
         get() {
-            return getOrMakeStarSystem("newEnteria") { Luminaru() } as Luminaru
+            return getOrMakeStarSystem("luminaru") { Luminaru() } as Luminaru
         }
 
     private fun getOrMakeStarSystem(id: String, factory: () -> WOEStarSystem): WOEStarSystem {

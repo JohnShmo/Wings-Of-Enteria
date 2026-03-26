@@ -5,7 +5,6 @@ import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.WOEGlobal
 
-
 abstract class WOEStarSystem {
     @Transient
     private var cachedSystem: StarSystemAPI? = null
@@ -24,6 +23,18 @@ abstract class WOEStarSystem {
             result.optionalUniqueId = id
             cachedSystem = result
             return result
+        }
+
+    private var registeredWithWideHorizons: Boolean
+        get() {
+            return data.contains(REGISTERED_WITH_WIDE_HORIZONS)
+        }
+        set(value) {
+            if (value) {
+                data.set(REGISTERED_WITH_WIDE_HORIZONS, true)
+            } else {
+                data.remove(REGISTERED_WITH_WIDE_HORIZONS)
+            }
         }
 
     protected val data: MutableMap<String, Any> = HashMap()
@@ -49,5 +60,55 @@ abstract class WOEStarSystem {
             Misc.fadeAndExpire(system.hyperspaceAnchor)
             system.hyperspaceAnchor = null
         }
+    }
+
+    protected fun registerCoreSystem() {
+        if (registeredWithWideHorizons) {
+            WOEGlobal.logger.info("Already registered star system with Wide Horizons: $name")
+            return
+        }
+        if (Global.getSettings().modManager.isModEnabled("WideHorizons")) {
+            try {
+                val cl = Global.getSettings().scriptClassLoader
+                val api = cl.loadClass("org.widehorizons.api.WideHorizonsAPI")
+
+                api.getMethod("registerCoreSystem", String::class.java)
+                    .invoke(null, id)
+
+                registeredWithWideHorizons = true
+                WOEGlobal.logger.info("Registered core star system with Wide Horizons: $name")
+            } catch (_: Throwable) {
+            }
+        }
+    }
+
+    protected fun registerSystem(x: Float, y: Float) {
+        if (registeredWithWideHorizons) {
+            WOEGlobal.logger.info("Already registered star system with Wide Horizons: $name")
+            return
+        }
+        if (Global.getSettings().modManager.isModEnabled("WideHorizons")) {
+            try {
+                val cl = Global.getSettings().scriptClassLoader
+                val api = cl.loadClass("org.widehorizons.api.WideHorizonsAPI")
+
+                api.getMethod(
+                    "registerSystem",
+                    String::class.java,
+                    Float::class.javaPrimitiveType,
+                    Float::class.javaPrimitiveType
+                )
+                    .invoke(null, id, x, y)
+
+                registeredWithWideHorizons = true
+                WOEGlobal.logger.info("Registered star system with Wide Horizons: $name")
+            } catch (_: Throwable) {
+            }
+        }
+    }
+
+    companion object {
+        private const val REGISTERED_WITH_WIDE_HORIZONS: String = "__registeredWithWideHorizons__"
+
     }
 }

@@ -49,13 +49,13 @@
 		],
 	},
 	"knownShips":{
-		"tags":["woe_enterian", "woe_enterian_concord"],
+		"tags":["ind", "independent", "woe_enterian", "woe_enterian_concord"],
 		"hulls":[
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
-		"tags":[],
+		"tags":["woe_enterian", "woe_enterian_concord"],
 		"hulls":[
 		],
 	},

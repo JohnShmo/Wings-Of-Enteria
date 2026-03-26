@@ -5,6 +5,8 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Industries
+import org.lazywizard.lazylib.MathUtils.clamp
+import java.awt.Color
 
 data class MarketplaceParams(
     val factionId: String,
@@ -66,4 +68,14 @@ fun createMarketplace(params: MarketplaceParams): MarketAPI {
     }
 
     return newMarket
+}
+
+fun lerpColors(a: Color, b: Color, t: Float): Color {
+    val clampedT = clamp(t, 0.0f, 1.0f)
+    return Color(
+        clamp(lerp(a.red.toFloat(), b.red.toFloat(), clampedT).toInt(),0, 255),
+        clamp(lerp(a.green.toFloat(), b.green.toFloat(), clampedT).toInt(), 0, 255),
+        clamp(lerp(a.blue.toFloat(), b.blue.toFloat(), clampedT).toInt(), 0, 255),
+        clamp(lerp(a.alpha.toFloat(), b.alpha.toFloat(), clampedT).toInt(), 0, 255)
+    )
 }
