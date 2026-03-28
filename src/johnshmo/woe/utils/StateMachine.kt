@@ -6,7 +6,7 @@ class StateMachine<T> where T : Enum<T> {
 
     var state: T?
         get() = currentState
-        set(value) = changeState(value!!)
+        set(value) = changeState(value)
 
     fun changeState(newState: T?) {
         if (currentState != null) {
