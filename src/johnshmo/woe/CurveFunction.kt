@@ -3,12 +3,7 @@ package johnshmo.woe
 import kotlin.math.pow
 import kotlin.math.sin
 
-
 typealias CurveFunction = (Float) -> Float
-
-fun lerp(a: Float, b: Float, t: Float): Float {
-    return a + (b - a) * t
-}
 
 fun easeInOutLinear(x: Float): Float = x
 fun easeInQuad(x: Float): Float = x * x

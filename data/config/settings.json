@@ -28,7 +28,13 @@
       "mantle_tap_scorch_marks": "graphics/wings_of_enteria/fx/mantle_tap_scorch_marks.png",
       "mantle_tap_cracks_1": "graphics/wings_of_enteria/fx/mantle_tap_cracks_1.png",
       "mantle_tap_cracks_2": "graphics/wings_of_enteria/fx/mantle_tap_cracks_2.png"
-    }
+    },
+	"woe_abilities": {
+		"shift_jump": "graphics/wings_of_enteria/icons/abilities/shift_jump.png",
+		"shift_jump_inactive": "graphics/wings_of_enteria/icons/abilities/shift_jump_inactive.png",
+		"shift_jump_charging": "graphics/wings_of_enteria/icons/abilities/shift_jump_charging.png",
+		"shift_jump_ready": "graphics/wings_of_enteria/icons/abilities/shift_jump_ready.png",
+	}
   },
   "designTypeColors": {
     "Enterian Design": [210,180,190,255],

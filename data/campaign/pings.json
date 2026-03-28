@@ -1,0 +1,29 @@
+{
+	"woe_shift_jump_prime":{
+		"color":[166,127,255,255],
+		"width":30,
+		"range":400,
+		"duration":2,
+		"alphaMult":1f,
+		"invert":true,
+		
+		"num":24,
+		"delay":0.5,
+	},
+	"woe_shift_jump_activate":{
+		"color":[166,127,255,255],
+		"width":30,
+		"range":800,
+		"duration":0.5,
+		"alphaMult":1f,
+		"invert":false,
+		
+		"num":2,
+		"delay":0.2,
+	}
+}
+
+
+
+
+
