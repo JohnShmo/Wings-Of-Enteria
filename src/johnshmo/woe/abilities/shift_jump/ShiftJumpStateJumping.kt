@@ -172,6 +172,7 @@ class ShiftJumpStateJumping(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
         }
         val fuelCost = shiftJump.computeFuelCost(jumpTarget!!)
         if (fuelCost > shiftJump.fleet.cargo.fuel) {
+            shiftJump.showFloatingText("Insufficient fuel for shift jump", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
             return ShiftJump.State.READY
         }
 
