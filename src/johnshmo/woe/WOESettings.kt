@@ -27,7 +27,7 @@ class WOESettings {
         var shiftJumpMaxRangeLY = 20.0f
         var shiftJumpMinFuelCostMultiplier = 0.5f
         var shiftJumpMaxFuelCostMultiplier = 1.5f
-        var shiftJumpMinCRCost = 0.1f
+        var shiftJumpMinCRCost = 0.01f
         var shiftJumpMaxCRCost = 0.75f
         var shiftJumpSensorProfilePenalty = 1000f
 
