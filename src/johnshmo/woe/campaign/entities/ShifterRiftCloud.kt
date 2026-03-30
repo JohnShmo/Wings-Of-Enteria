@@ -9,9 +9,9 @@ import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.campaign.effects.ShifterRiftCloudRenderer
-import johnshmo.woe.easeInOutQuad
-import johnshmo.woe.easeOutCirc
-import johnshmo.woe.lerp
+import johnshmo.woe.utils.easeInOutQuad
+import johnshmo.woe.utils.easeOutCirc
+import johnshmo.woe.utils.lerp
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import kotlin.math.cos

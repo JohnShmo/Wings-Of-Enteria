@@ -13,6 +13,8 @@ import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.*
+import johnshmo.woe.utils.MarketplaceParams
+import johnshmo.woe.utils.createMarketplace
 import java.awt.Color
 
 class Luminaru : WOEStarSystem() {

@@ -8,10 +8,10 @@ import com.fs.starfarer.api.graphics.SpriteAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.util.Misc
-import johnshmo.woe.CachedSprite
-import johnshmo.woe.InterpolatedFloat
-import johnshmo.woe.easeInOutElastic
-import johnshmo.woe.easeInQuad
+import johnshmo.woe.utils.CachedSprite
+import johnshmo.woe.utils.InterpolatedFloat
+import johnshmo.woe.utils.easeInOutElastic
+import johnshmo.woe.utils.easeInQuad
 import johnshmo.woe.campaign.effects.CampaignLaser
 import johnshmo.woe.campaign.effects.MantleTapEffect
 import org.lazywizard.lazylib.MathUtils

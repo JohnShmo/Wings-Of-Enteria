@@ -2,11 +2,11 @@ package johnshmo.woe.campaign.effects
 
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.util.Misc
-import johnshmo.woe.CachedSprite
-import johnshmo.woe.InterpolatedFloat
-import johnshmo.woe.easeInCubic
-import johnshmo.woe.easeInQuad
-import johnshmo.woe.easeOutQuad
+import johnshmo.woe.utils.CachedSprite
+import johnshmo.woe.utils.InterpolatedFloat
+import johnshmo.woe.utils.easeInCubic
+import johnshmo.woe.utils.easeInQuad
+import johnshmo.woe.utils.easeOutQuad
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color

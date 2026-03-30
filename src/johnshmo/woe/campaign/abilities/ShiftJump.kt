@@ -27,8 +27,14 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.*
 import johnshmo.woe.campaign.entities.ShifterRiftCloud
+import johnshmo.woe.utils.InterpolatedFloat
 import johnshmo.woe.utils.StateInterface
 import johnshmo.woe.utils.StateMachine
+import johnshmo.woe.utils.computeSupplyCostForCRRecovery
+import johnshmo.woe.utils.easeInCubic
+import johnshmo.woe.utils.inverseLerp
+import johnshmo.woe.utils.lerp
+import johnshmo.woe.utils.lerpColors
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
@@ -207,7 +213,8 @@ class ShiftJump : BaseAbilityPlugin() {
         val maxRangeLY = WOESettings.shiftJumpMaxRangeLY
         val distanceLY = Misc.getDistanceLY(fleet, target)
         val t = inverseLerp(0f, maxRangeLY, distanceLY)
-        val costMultiplier = lerp(WOESettings.shiftJumpMinFuelCostMultiplier, WOESettings.shiftJumpMaxFuelCostMultiplier, t)
+        val costMultiplier =
+            lerp(WOESettings.shiftJumpMinFuelCostMultiplier, WOESettings.shiftJumpMaxFuelCostMultiplier, t)
         val regularCost = fleet.logistics.fuelCostPerLightYear * distanceLY
         return (regularCost * costMultiplier).toInt()
     }

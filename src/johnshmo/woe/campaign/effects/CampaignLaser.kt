@@ -3,7 +3,7 @@ package johnshmo.woe.campaign.effects
 import com.fs.starfarer.api.util.Misc
 import org.lazywizard.lazylib.MathUtils.clamp
 import java.awt.Color
-import johnshmo.woe.CachedSprite
+import johnshmo.woe.utils.CachedSprite
 import org.lwjgl.util.vector.Vector2f
 
 class CampaignLaser(

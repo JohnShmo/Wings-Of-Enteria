@@ -1,4 +1,4 @@
-package johnshmo.woe
+package johnshmo.woe.utils
 
 import kotlin.math.cos
 import kotlin.math.pow
