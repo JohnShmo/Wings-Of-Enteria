@@ -1,4 +1,4 @@
-package johnshmo.woe.generation
+package johnshmo.woe.campaign.generation
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.StarSystemAPI

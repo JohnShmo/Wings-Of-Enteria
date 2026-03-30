@@ -1,4 +1,4 @@
-package johnshmo.woe.entities
+package johnshmo.woe.campaign.entities
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CampaignEngineLayers
@@ -12,8 +12,8 @@ import johnshmo.woe.CachedSprite
 import johnshmo.woe.InterpolatedFloat
 import johnshmo.woe.easeInOutElastic
 import johnshmo.woe.easeInQuad
-import johnshmo.woe.effects.CampaignLaser
-import johnshmo.woe.effects.MantleTapEffect
+import johnshmo.woe.campaign.effects.CampaignLaser
+import johnshmo.woe.campaign.effects.MantleTapEffect
 import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.MathUtils.clamp
 import org.lwjgl.util.vector.Vector2f

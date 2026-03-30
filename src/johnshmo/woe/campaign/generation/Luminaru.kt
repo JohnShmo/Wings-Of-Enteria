@@ -1,4 +1,4 @@
-package johnshmo.woe.generation
+package johnshmo.woe.campaign.generation
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.PlanetAPI
@@ -9,7 +9,6 @@ import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor
 import com.fs.starfarer.api.impl.campaign.procgen.StarAge
 import com.fs.starfarer.api.impl.campaign.procgen.StarSystemGenerator
 import com.fs.starfarer.api.impl.campaign.terrain.BaseTiledTerrain.TileParams
-import com.fs.starfarer.api.impl.campaign.terrain.DebrisFieldTerrainPlugin
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin
 import com.fs.starfarer.api.util.Misc

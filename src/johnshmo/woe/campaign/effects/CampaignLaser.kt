@@ -1,4 +1,4 @@
-package johnshmo.woe.effects
+package johnshmo.woe.campaign.effects
 
 import com.fs.starfarer.api.util.Misc
 import org.lazywizard.lazylib.MathUtils.clamp

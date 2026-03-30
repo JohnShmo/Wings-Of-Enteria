@@ -3,8 +3,8 @@ package johnshmo.woe
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import exerelin.campaign.SectorManager
-import johnshmo.woe.generation.Luminaru
-import johnshmo.woe.generation.WOEStarSystem
+import johnshmo.woe.campaign.generation.Luminaru
+import johnshmo.woe.campaign.generation.WOEStarSystem
 
 class WOEGenerator {
     private val data: MutableMap<String, Any> = HashMap()

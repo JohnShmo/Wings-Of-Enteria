@@ -1,4 +1,4 @@
-package johnshmo.woe.econ
+package johnshmo.woe.campaign.econ
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition
@@ -8,7 +8,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.WOESettings
-import java.util.*
 
 class MantleTap : BaseHazardCondition() {
     override fun apply(id: String) {

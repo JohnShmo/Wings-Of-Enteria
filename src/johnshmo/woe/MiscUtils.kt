@@ -11,6 +11,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.util.Misc
 import org.lazywizard.lazylib.MathUtils.clamp
+import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 import java.util.*
 
@@ -80,6 +81,11 @@ fun createMarketplace(params: MarketplaceParams): MarketAPI {
 fun lerp(a: Float, b: Float, t: Float): Float {
     return a + (b - a) * t
 }
+
+fun lerp(a: Vector2f, b: Vector2f, t: Float): Vector2f = Vector2f(
+    lerp(a.x, b.x, t),
+    lerp(a.y, b.y, t)
+)
 
 fun lerpColors(a: Color, b: Color, t: Float): Color {
     val clampedT = clamp(t, 0.0f, 1.0f)
