@@ -33,7 +33,7 @@ class ShifterRiftCloudRenderer {
                 request.scale * (baseWidth + (Misc.random.nextFloat() - 0.5f) * (baseWidth * 0.02f)),
                 request.scale * (baseHeight + (Misc.random.nextFloat() - 0.5f) * (baseHeight * 0.02f))
             )
-            fringeSprite.setAngle(request.angle)
+            fringeSprite.angle = request.angle
             fringeSprite.renderAtCenter(x, y)
         }
 

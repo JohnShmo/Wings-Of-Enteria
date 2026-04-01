@@ -112,8 +112,8 @@ fun computeSupplyCostForCRRecovery(fleet: CampaignFleetAPI, crLoss: Float): Floa
 }
 
 fun computeSupplyCostForCRRecovery(fleetMember: FleetMemberAPI, crLoss: Float): Float {
-    val deploymentCostSupplies = fleetMember.getDeploymentCostSupplies()
-    val deploymentCostCR = fleetMember.getDeployCost() * 100f
+    val deploymentCostSupplies = fleetMember.deploymentCostSupplies
+    val deploymentCostCR = fleetMember.deployCost * 100f
     val suppliesPerCR = deploymentCostSupplies / deploymentCostCR
     return suppliesPerCR * (crLoss * 100f)
 }
@@ -144,12 +144,12 @@ fun pickSystem(): StarSystemAPI? {
     return pickSystem(false)
 }
 
-fun pickSystem(starSystems: MutableList<StarSystemAPI?>): StarSystemAPI? {
+fun pickSystem(starSystems: MutableList<StarSystemAPI>): StarSystemAPI? {
     val random: Random = Misc.random
     var pickedSystem: StarSystemAPI? = null
     if (!starSystems.isEmpty()) {
         val pickedIndex: Int = random.nextInt(starSystems.size)
-        pickedSystem = starSystems.get(pickedIndex)
+        pickedSystem = starSystems[pickedIndex]
     }
     return pickedSystem
 }

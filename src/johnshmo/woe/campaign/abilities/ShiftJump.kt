@@ -28,7 +28,6 @@ import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.*
 import johnshmo.woe.campaign.entities.ShifterRiftCloud
 import johnshmo.woe.utils.InterpolatedFloat
-import johnshmo.woe.utils.StateInterface
 import johnshmo.woe.utils.StateMachine
 import johnshmo.woe.utils.computeSupplyCostForCRRecovery
 import johnshmo.woe.utils.easeInCubic
@@ -64,13 +63,13 @@ class ShiftJump : BaseAbilityPlugin() {
     private val stateMachine: StateMachine<State>
         get() = data.getOrPut("stateMachine") {
             val sm = StateMachine<State>()
-            sm.registerState(State.INACTIVE, InactiveState(this))
-            sm.registerState(State.CHARGING, ChargeState(this))
-            sm.registerState(State.READY, ReadyState(this))
-            sm.registerState(State.SELECTING_TARGET, SelectingTargetState(this))
-            sm.registerState(State.JUMPING, JumpingState(this))
-            sm.registerState(State.FINISHED, FinishedState(this))
-            sm.registerState(State.COOLDOWN, CooldownState(this))
+            sm[State.INACTIVE] = InactiveState(this)
+            sm[State.CHARGING] = ChargeState(this)
+            sm[State.READY] = ReadyState(this)
+            sm[State.SELECTING_TARGET] = SelectingTargetState(this)
+            sm[State.JUMPING] = JumpingState(this)
+            sm[State.FINISHED] = FinishedState(this)
+            sm[State.COOLDOWN] = CooldownState(this)
             sm.state = State.INACTIVE
             sm
         } as StateMachine<State>
@@ -621,7 +620,7 @@ class ShiftJump : BaseAbilityPlugin() {
         }
     }
 
-    private abstract class ShiftJumpState: StateInterface<State> {
+    private abstract class ShiftJumpState: StateMachine.State<State> {
         protected var shiftJump: ShiftJump
         protected val data: MutableMap<String, Any> = HashMap()
 
