@@ -68,7 +68,7 @@ class Luminaru : WOEStarSystem() {
             return system.getEntityById(WINGS_OF_ENTERIA_ID) as SectorEntityToken
         }
 
-    override fun initializeImpl() {
+    override fun initImpl() {
         generateStar()
         generateAlice()
         generateAzureNexus()

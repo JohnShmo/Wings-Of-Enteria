@@ -41,12 +41,12 @@ abstract class WOEStarSystem {
     protected abstract val id: String
     protected abstract val name: String
 
-    protected abstract fun initializeImpl()
+    protected abstract fun initImpl()
 
-    fun initialize() {
+    fun init() {
         WOEGlobal.logger.info("Initializing star system: $name")
 
-        initializeImpl()
+        initImpl()
 
         WOEGlobal.logger.info("Finished initializing star system: $name")
     }

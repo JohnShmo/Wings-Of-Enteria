@@ -21,7 +21,7 @@ class WOEModPlugin : BaseModPlugin() {
     }
 
     override fun onNewGame() {
-        WOEGlobal.initialize()
+        WOEGlobal.init()
     }
 
     override fun onNewGameAfterProcGen() {
@@ -30,7 +30,7 @@ class WOEModPlugin : BaseModPlugin() {
 
     override fun onGameLoad(newGame: Boolean) {
         if (!newGame) {
-            WOEGlobal.initialize()
+            WOEGlobal.init()
         }
     }
 }

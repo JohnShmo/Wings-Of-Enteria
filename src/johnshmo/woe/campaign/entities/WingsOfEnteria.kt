@@ -8,6 +8,7 @@ import com.fs.starfarer.api.graphics.SpriteAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.util.Misc
+import johnshmo.woe.WOESprites
 import johnshmo.woe.utils.CachedSprite
 import johnshmo.woe.utils.InterpolatedFloat
 import johnshmo.woe.utils.easeInOutElastic
@@ -247,25 +248,25 @@ class WingsOfEnteria : BaseCustomEntityPlugin() {
     }
 
     companion object {
-        private const val CATEGORY = "woe_stations"
-        private const val BLINK_GREEN_ID = "wings_of_enteria_blink_green"
-        private const val BLINK_YELLOW_ID = "wings_of_enteria_blink_yellow"
-        private const val ENGINE_GLOW_ID = "wings_of_enteria_engine_glow"
+        private const val CATEGORY = WOESprites.CATEGORY_STATIONS
+        private const val BLINK_GREEN_ID = WOESprites.STATIONS_WINGS_OF_ENTERIA_BLINK_GREEN
+        private const val BLINK_YELLOW_ID = WOESprites.STATIONS_WINGS_OF_ENTERIA_BLINK_YELLOW
+        private const val ENGINE_GLOW_ID = WOESprites.STATIONS_WINGS_OF_ENTERIA_ENGINE_GLOW
         private val RING_IDS = arrayOf(
-            "wings_of_enteria_ring_00",
-            "wings_of_enteria_ring_01",
-            "wings_of_enteria_ring_02",
-            "wings_of_enteria_ring_03",
-            "wings_of_enteria_ring_04",
-            "wings_of_enteria_ring_05",
-            "wings_of_enteria_ring_06",
-            "wings_of_enteria_ring_07",
-            "wings_of_enteria_ring_08",
-            "wings_of_enteria_ring_09",
-            "wings_of_enteria_ring_10",
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_00,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_01,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_02,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_03,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_04,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_05,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_06,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_07,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_08,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_09,
+            WOESprites.STATIONS_WINGS_OF_ENTERIA_RING_10,
         )
-        private const val LASER_CATEGORY = "woe_fx"
-        private const val LASER_CORE_ID = "wings_of_enteria_laser_core"
-        private const val LASER_FRINGE_ID = "wings_of_enteria_laser_fringe"
+        private const val LASER_CATEGORY = WOESprites.CATEGORY_FX
+        private const val LASER_CORE_ID = WOESprites.FX_WINGS_OF_ENTERIA_LASER_CORE
+        private const val LASER_FRINGE_ID = WOESprites.FX_WINGS_OF_ENTERIA_LASER_FRINGE
     }
 }

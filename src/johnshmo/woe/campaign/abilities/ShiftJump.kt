@@ -43,7 +43,6 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sin
 
-
 class ShiftJump : BaseAbilityPlugin() {
     enum class State {
         INACTIVE,
@@ -230,12 +229,13 @@ class ShiftJump : BaseAbilityPlugin() {
     }
 
     override fun advance(amount: Float) {
-        super.advance(amount)
         cachedChargeCost = false
         if (fleet == null) {
             return
         }
         advanceDeactivationBlink(amount)
+        if (Global.getSector().isPaused) return
+        super.advance(amount)
         stateMachine.advance(amount)
         if (state != State.INACTIVE) {
             interruptIncompatible()
@@ -942,4 +942,6 @@ class ShiftJump : BaseAbilityPlugin() {
             return State.READY
         }
     }
+
+    override fun runWhilePaused(): Boolean = true
 }

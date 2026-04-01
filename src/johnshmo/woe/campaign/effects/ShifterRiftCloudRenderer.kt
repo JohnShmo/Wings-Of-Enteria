@@ -2,6 +2,7 @@ package johnshmo.woe.campaign.effects
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.util.Misc
+import johnshmo.woe.WOESprites
 import org.lwjgl.util.vector.Vector2f
 
 class ShifterRiftCloudRenderer {
@@ -21,7 +22,7 @@ class ShifterRiftCloudRenderer {
     fun renderFringe() {
         if (requests.isEmpty()) return
 
-        val fringeSprite = Global.getSettings().getSprite("woe_fx", FRINGE_SPRITE_ID)
+        val fringeSprite = Global.getSettings().getSprite(CATEGORY, FRINGE_SPRITE_ID)
         val baseWidth = fringeSprite.width
         val baseHeight = fringeSprite.height
         fringeSprite.setAdditiveBlend()
@@ -43,7 +44,7 @@ class ShifterRiftCloudRenderer {
     fun renderCore() {
         if (requests.isEmpty()) return
 
-        val coreSprite = Global.getSettings().getSprite("woe_fx", CORE_SPRITE_ID)
+        val coreSprite = Global.getSettings().getSprite(CATEGORY, CORE_SPRITE_ID)
         val baseWidth = coreSprite.width
         val baseHeight = coreSprite.height
 
@@ -62,7 +63,8 @@ class ShifterRiftCloudRenderer {
     }
 
     companion object {
-        var CORE_SPRITE_ID: String = "shifter_rift_core"
-        var FRINGE_SPRITE_ID: String = "shifter_rift_fringe"
+        private var CATEGORY: String = WOESprites.CATEGORY_FX
+        private var CORE_SPRITE_ID: String = WOESprites.FX_SHIFTER_RIFT_CORE
+        private var FRINGE_SPRITE_ID: String = WOESprites.FX_SHIFTER_RIFT_FRINGE
     }
 }

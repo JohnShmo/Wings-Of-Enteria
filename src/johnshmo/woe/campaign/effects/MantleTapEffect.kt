@@ -2,6 +2,7 @@ package johnshmo.woe.campaign.effects
 
 import com.fs.starfarer.api.campaign.PlanetAPI
 import com.fs.starfarer.api.util.Misc
+import johnshmo.woe.WOESprites
 import johnshmo.woe.utils.CachedSprite
 import johnshmo.woe.utils.InterpolatedFloat
 import johnshmo.woe.utils.easeInCubic
@@ -127,11 +128,11 @@ class MantleTapEffect {
     }
 
     companion object {
-        private const val CATEGORY = "woe_fx"
-        private const val BRIGHT_SPOT_ID = "mantle_tap_bright_spot"
-        private const val RIM_LIGHT_ID = "mantle_tap_rim_light"
-        private const val SCORCH_MARKS_ID = "mantle_tap_scorch_marks"
-        private const val CRACKS_1_ID = "mantle_tap_cracks_1"
-        private const val CRACKS_2_ID = "mantle_tap_cracks_2"
+        private const val CATEGORY = WOESprites.CATEGORY_FX
+        private const val BRIGHT_SPOT_ID = WOESprites.FX_MANTLE_TAP_BRIGHT_SPOT
+        private const val RIM_LIGHT_ID = WOESprites.FX_MANTLE_TAP_RIM_LIGHT
+        private const val SCORCH_MARKS_ID = WOESprites.FX_MANTLE_TAP_SCORCH_MARKS
+        private const val CRACKS_1_ID = WOESprites.FX_MANTLE_TAP_CRACKS_1
+        private const val CRACKS_2_ID = WOESprites.FX_MANTLE_TAP_CRACKS_2
     }
 }

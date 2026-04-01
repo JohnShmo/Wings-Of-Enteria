@@ -8,6 +8,8 @@ import com.fs.starfarer.api.combat.ViewportAPI
 import com.fs.starfarer.api.impl.campaign.BaseCustomEntityPlugin
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.util.Misc
+import johnshmo.woe.WOECustomEntities
+import johnshmo.woe.WOESounds
 import johnshmo.woe.campaign.effects.ShifterRiftCloudRenderer
 import johnshmo.woe.utils.easeInOutQuad
 import johnshmo.woe.utils.easeOutCirc
@@ -182,7 +184,7 @@ class ShifterRiftCloud : BaseCustomEntityPlugin() {
     private fun playSoundLoop(pitch: Float, volume: Float) {
         if (entity == null || entity.isExpired || params == null || !entity.isInCurrentLocation || !entity.isVisibleToPlayerFleet) return
         Global.getSoundPlayer().playLoop(
-            "woe_shifter_rift_loop", this, pitch, volume,
+            WOESounds.SHIFTER_RIFT_LOOP, this, pitch, volume,
             entity.location, entity.velocity, 0.1f, 0.1f
         )
     }
@@ -241,7 +243,7 @@ class ShifterRiftCloud : BaseCustomEntityPlugin() {
 
         private fun spawnEntity(location: LocationAPI, x: Float, y: Float, params: Params?): SectorEntityToken {
             return location.addCustomEntity(
-                null, null, "woe_shifter_rift_cloud", Factions.NEUTRAL, params
+                null, null, WOECustomEntities.SHIFTER_RIFT_CLOUD, Factions.NEUTRAL, params
             ).apply {
                 setLocation(x, y)
                 facing = Misc.random.nextFloat() * 360

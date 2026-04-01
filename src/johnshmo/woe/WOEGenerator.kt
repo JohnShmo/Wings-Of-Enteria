@@ -9,7 +9,7 @@ import johnshmo.woe.campaign.generation.WOEStarSystem
 class WOEGenerator {
     private val data: MutableMap<String, Any> = HashMap()
 
-    fun initialize() {
+    fun init() {
         generateStarSystems()
         generateFactions()
     }
@@ -19,7 +19,7 @@ class WOEGenerator {
         val isNexerelinEnabled = Global.getSettings().modManager.isModEnabled("nexerelin")
 
         if (!isNexerelinEnabled || SectorManager.getManager().isCorvusMode) {
-            luminaru.initialize()
+            luminaru.init()
             WOEGlobal.logger.info("Star systems generated.")
         } else {
             WOEGlobal.logger.info("Skipped star system generation for random sector.")

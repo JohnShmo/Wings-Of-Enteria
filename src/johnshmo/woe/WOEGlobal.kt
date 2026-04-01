@@ -18,10 +18,10 @@ class WOEGlobal private constructor() {
         private const val GENERATOR_ID = "generator"
         private const val CAMPAIGN_ID = "campaignPlugin"
 
-        fun initialize() {
+        fun init() {
             logger.info("Initializing...")
-            generator.initialize()
-            campaignPlugin.initialize()
+            generator.init()
+            campaignPlugin.init()
             logger.info("Initialization complete")
         }
 

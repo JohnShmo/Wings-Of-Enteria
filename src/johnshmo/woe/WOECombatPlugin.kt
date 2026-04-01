@@ -8,8 +8,10 @@ class WOECombatPlugin : BaseEveryFrameCombatPlugin() {
     @Transient
     private val data: MutableMap<String, Any> = HashMap()
     @Transient
+    val customData: MutableMap<String, Any> = HashMap()
+    @Transient
     private var cachedEngine: CombatEngineAPI? = null
-    private val engine: CombatEngineAPI
+    val engine: CombatEngineAPI
         get() {
             if (cachedEngine != null) return cachedEngine!!
             val result = Global.getCombatEngine()
