@@ -4,13 +4,25 @@
     "luminaruHyperspaceLocationY": -5400,
     "huxleyPopulationSize": 4,
     "wingsOfEnteriaPopulationSize": 6,
+
     "mantleTapOreBonus": 2,
     "mantleTapRareOreBonus": 2,
     "mantleTapVolatilesBonus": 2,
     "mantleTapTransplutonicsBaseDemand": 2,
+
     "enterianConcordArmorBonuses": [50, 60, 70, 80],
     "enterianConcordFluxBonusPercent": 8,
     "enterianConcordAmmoCapacityBonusPercent": 20,
-    "enterianConcordZeroFluxSpeedPenaltyMult": 0.85
+    "enterianConcordZeroFluxSpeedPenaltyMult": 0.85,
+
+    "shiftJumpChargeTimeDays": 2.5,
+    "shiftJumpChargeTransplutonicsPerDayPerDP": 0.05,
+    "shiftJumpCooldownDays": 10.0,
+    "shiftJumpMaxRangeLY": 20.0,
+    "shiftJumpMinFuelCostMultiplier": 0.5,
+    "shiftJumpMaxFuelCostMultiplier": 1.5,
+    "shiftJumpMinCRCost": 0.01,
+    "shiftJumpMaxCRCost": 0.75,
+    "shiftJumpSensorProfilePenalty": 1000.0
   }
 }

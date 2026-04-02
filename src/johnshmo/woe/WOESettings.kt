@@ -22,7 +22,7 @@ class WOESettings {
         var enterianConcordZeroFluxSpeedPenaltyMult = 0.85f
 
         var shiftJumpChargeTimeDays = 2.5f
-        var shiftJumpChargeTransplutonicsPerDay = 0.05f
+        var shiftJumpChargeTransplutonicsPerDayPerDP = 0.05f
         var shiftJumpCooldownDays = 10f
         var shiftJumpMaxRangeLY = 20.0f
         var shiftJumpMinFuelCostMultiplier = 0.5f
@@ -36,13 +36,13 @@ class WOESettings {
                 when (key as String) {
                     "luminaruHyperspaceLocationX" -> luminaruHyperspaceLocationX = json.getDouble(key).toFloat()
                     "luminaruHyperspaceLocationY" -> luminaruHyperspaceLocationY = json.getDouble(key).toFloat()
-                    "huxleyPopulationSize" -> huxleyPopulationSize = json.getInt(key)
-                    "wingsOfEnteriaPopulationSize" -> wingsOfEnteriaPopulationSize = json.getInt(key)
-                    "mantleTapOreBonus" -> mantleTapOreBonus = json.getInt(key)
-                    "mantleTapRareOreBonus" -> mantleTapRareOreBonus = json.getInt(key)
-                    "mantleTapVolatilesBonus" -> mantleTapVolatilesBonus = json.getInt(key)
+                    "huxleyPopulationSize" -> huxleyPopulationSize = json.getDouble(key).toInt()
+                    "wingsOfEnteriaPopulationSize" -> wingsOfEnteriaPopulationSize = json.getDouble(key).toInt()
+                    "mantleTapOreBonus" -> mantleTapOreBonus = json.getDouble(key).toInt()
+                    "mantleTapRareOreBonus" -> mantleTapRareOreBonus = json.getDouble(key).toInt()
+                    "mantleTapVolatilesBonus" -> mantleTapVolatilesBonus = json.getDouble(key).toInt()
                     "mantleTapTransplutonicsBaseDemand" -> mantleTapTransplutonicsBaseDemand =
-                        json.getInt(key)
+                        json.getDouble(key).toInt()
                     "enterianConcordArmorBonuses" -> {
                         val jsonArray = json.getJSONArray(key)
                         val result = enterianConcordArmorBonuses
@@ -55,6 +55,15 @@ class WOESettings {
                     "enterianConcordFluxBonusPercent" -> enterianConcordFluxBonusPercent = json.getDouble(key).toFloat()
                     "enterianConcordAmmoCapacityBonusPercent" -> enterianConcordAmmoCapacityBonusPercent = json.getDouble(key).toFloat()
                     "enterianConcordZeroFluxSpeedPenaltyMult" -> enterianConcordZeroFluxSpeedPenaltyMult = json.getDouble(key).toFloat()
+                    "shiftJumpChargeTimeDays" -> shiftJumpChargeTimeDays = json.getDouble(key).toFloat()
+                    "shiftJumpChargeTransplutonicsPerDayPerDP" -> shiftJumpChargeTransplutonicsPerDayPerDP = json.getDouble(key).toFloat()
+                    "shiftJumpCooldownDays" -> shiftJumpCooldownDays = json.getDouble(key).toFloat()
+                    "shiftJumpMaxRangeLY" -> shiftJumpMaxRangeLY = json.getDouble(key).toFloat()
+                    "shiftJumpMinFuelCostMultiplier" -> shiftJumpMinFuelCostMultiplier = json.getDouble(key).toFloat()
+                    "shiftJumpMaxFuelCostMultiplier" -> shiftJumpMaxFuelCostMultiplier = json.getDouble(key).toFloat()
+                    "shiftJumpMinCRCost" -> shiftJumpMinCRCost = json.getDouble(key).toFloat()
+                    "shiftJumpMaxCRCost" -> shiftJumpMaxCRCost = json.getDouble(key).toFloat()
+                    "shiftJumpSensorProfilePenalty" -> shiftJumpSensorProfilePenalty = json.getDouble(key).toFloat()
                 }
             }
         }

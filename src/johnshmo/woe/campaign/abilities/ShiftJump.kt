@@ -302,7 +302,7 @@ class ShiftJump : BaseAbilityPlugin() {
         if (cachedChargeCost) {
             return cachedChargeCostValue
         }
-        val chargeCostPerDayMult = WOESettings.shiftJumpChargeTransplutonicsPerDay
+        val chargeCostPerDayMult = WOESettings.shiftJumpChargeTransplutonicsPerDayPerDP
         var chargeCostPerDayTotal = 0.0f
         val fleetMembers = fleet.fleetData.membersListCopy
         for (member in fleetMembers) {
@@ -397,7 +397,7 @@ class ShiftJump : BaseAbilityPlugin() {
             return false
         }
         if (state == State.INACTIVE) {
-            val chargeCostPerDay = WOESettings.shiftJumpChargeTransplutonicsPerDay
+            val chargeCostPerDay = WOESettings.shiftJumpChargeTransplutonicsPerDayPerDP
             val cargo = fleet.cargo
             val quantity = cargo.getCommodityQuantity(Commodities.RARE_METALS)
             if ((chargeCostPerDay > 0f) && (quantity <= 0f)) {
