@@ -2,38 +2,21 @@ package johnshmo.woe.campaign.abilities
 
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.BaseCampaignEntityPickerListener
-import com.fs.starfarer.api.campaign.BattleAPI
-import com.fs.starfarer.api.campaign.CampaignFleetAPI
-import com.fs.starfarer.api.campaign.InteractionDialogAPI
-import com.fs.starfarer.api.campaign.InteractionDialogPlugin
+import com.fs.starfarer.api.campaign.*
 import com.fs.starfarer.api.campaign.JumpPointAPI.JumpDestination
-import com.fs.starfarer.api.campaign.PlanetAPI
-import com.fs.starfarer.api.campaign.SectorEntityToken
-import com.fs.starfarer.api.campaign.StarSystemAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.characters.AbilityPlugin
 import com.fs.starfarer.api.combat.EngagementResultAPI
 import com.fs.starfarer.api.fleet.FleetMemberAPI
-import com.fs.starfarer.api.impl.campaign.abilities.BaseAbilityPlugin
-import com.fs.starfarer.api.impl.campaign.abilities.EmergencyBurnAbility
-import com.fs.starfarer.api.impl.campaign.abilities.FractureJumpAbility
-import com.fs.starfarer.api.impl.campaign.abilities.GenerateSlipsurgeAbility
-import com.fs.starfarer.api.impl.campaign.abilities.GoDarkAbility
-import com.fs.starfarer.api.impl.campaign.abilities.SustainedBurnAbility
-import com.fs.starfarer.api.impl.campaign.abilities.TransponderAbility
+import com.fs.starfarer.api.impl.campaign.abilities.*
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import johnshmo.woe.*
+import johnshmo.woe.WOEAbilities
+import johnshmo.woe.WOESettings
+import johnshmo.woe.WOESprites
 import johnshmo.woe.campaign.entities.ShifterRiftCloud
-import johnshmo.woe.utils.InterpolatedFloat
-import johnshmo.woe.utils.StateMachine
-import johnshmo.woe.utils.computeSupplyCostForCRRecovery
-import johnshmo.woe.utils.easeInCubic
-import johnshmo.woe.utils.inverseLerp
-import johnshmo.woe.utils.lerp
-import johnshmo.woe.utils.lerpColors
+import johnshmo.woe.utils.*
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
@@ -318,9 +301,12 @@ class ShiftJump : BaseAbilityPlugin() {
     }
 
     override fun activate() {
-        if (state == State.INACTIVE) {
+        val currentState = state
+        if (currentState == State.INACTIVE) {
             super.activate()
             state = State.CHARGING
+        } else if (currentState == State.READY) {
+            state = State.SELECTING_TARGET
         }
     }
 
@@ -430,8 +416,8 @@ class ShiftJump : BaseAbilityPlugin() {
                 playUISound(onSoundUI)
             }
             State.READY -> {
+                activate()
                 playUISound(onSoundUI)
-                state = State.SELECTING_TARGET
             }
             else -> {
                 // Do nothing
@@ -460,15 +446,79 @@ class ShiftJump : BaseAbilityPlugin() {
         showFloatingText("Shift drive field destabilized", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
     }
 
+    override fun createTooltip(tooltip: TooltipMakerAPI?, expanded: Boolean) {
+        if (fleet == null) return
+        if (tooltip == null) return
+
+        val pad = 10.0f
+        val gray = Misc.getGrayColor()
+        val hl = Misc.getHighlightColor()
+        val neg = Misc.getNegativeHighlightColor()
+
+        val status = when (state) {
+            State.INACTIVE -> " (off)"
+            State.CHARGING -> " (charging)"
+            State.COOLDOWN -> " (cooldown)"
+            State.READY -> " (ready)"
+            State.JUMPING -> " (jumping)"
+            else -> ""
+        }
+
+        if (!Global.CODEX_TOOLTIP_MODE) {
+            val title = tooltip.addTitle(spec.name + status)
+            title.highlightLast(status)
+            title.setHighlightColor(gray)
+        } else {
+            tooltip.addSpacer(-10f)
+        }
+
+        tooltip.addPara("Allows the fleet - using its integrated shift drive - to teleport to a different star " +
+                "system, bypassing hyperspace. This maneuver is highly volatile and requires a stable shift field.",
+            pad
+        )
+
+        val transplutonicsCostPerDay = Misc.getRoundedValueMaxOneAfterDecimal(computeAndCacheChargeCostPerDay())
+        val daysToCharge = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpChargeTimeDays)
+        val totalTransplutonicsCost = (computeAndCacheChargeCostPerDay() * WOESettings.shiftJumpChargeTimeDays).toInt().toString()
+        val sensorProfilePenalty = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpSensorProfilePenalty)
+        val transplutonicsString = "transplutonics"
+        tooltip.addPara(
+            "Initially, the shift drive must charge. This consumes %s %s per day (depending on the " +
+                    "fleet's total deployment points) over the course of %s days (for a total of %s %s). The fleet's sensor profile is increased " +
+                    "by %s during this time. Additionally, the use of any burn-drive-related abilities is prohibited while charging.",
+            pad, hl,
+            transplutonicsCostPerDay,
+            transplutonicsString,
+            daysToCharge,
+            totalTransplutonicsCost,
+            transplutonicsString,
+            sensorProfilePenalty
+        )
+        tooltip.addPara(
+            "Once the shift drive is charged, a target star system may be selected to jump to. This will incur a fuel " +
+                    "and recovery cost depending on the distance traveled. Shorter distances are more fuel-efficient than " +
+                    "normal hyperspace travel, but longer distances are more expensive. Ships may be damaged or destroyed " +
+                    "if their combat readiness is not sufficient for the jump.",
+            pad
+        )
+        tooltip.addPara(
+            "If the fleet's total deployment points changes significantly at any point while the shift drive is operating, " +
+                    "or if the fleet enters combat, %s. " +
+                    "Afterwards, the shift drive will need to be recharged.",
+            pad, neg,
+            "the shift field will become unstable, and the jump will be aborted"
+        )
+    }
+
     companion object {
         private const val BLINK_SPEED: Float = 5.0f
         private const val BLINK_DURATION: Float = 5.0f
         private const val CHARGE_COST_EPSILON: Float = 0.01f
-        private const val ICON_CATEGORY = "woe_abilities"
-        private const val ICON_SPRITE_NAME = "shift_jump"
-        private const val INACTIVE_ICON_SPRITE_NAME = "shift_jump_inactive"
-        private const val CHARGING_ICON_SPRITE_NAME = "shift_jump_charging"
-        private const val READY_ICON_SPRITE_NAME = "shift_jump_ready"
+        private const val ICON_CATEGORY = WOESprites.CATEGORY_ABILITIES
+        private const val ICON_SPRITE_NAME = WOESprites.ABILITIES_SHIFT_JUMP
+        private const val INACTIVE_ICON_SPRITE_NAME = WOESprites.ABILITIES_SHIFT_JUMP_INACTIVE
+        private const val CHARGING_ICON_SPRITE_NAME = WOESprites.ABILITIES_SHIFT_JUMP_CHARGING
+        private const val READY_ICON_SPRITE_NAME = WOESprites.ABILITIES_SHIFT_JUMP_READY
         private val CHARGE_UP_COLOR: Color = Color(100, 250, 250, 150)
         private val DEACTIVATION_BLINK_COLOR: Color = Color(255, 200, 0, 255)
     }
@@ -652,11 +702,11 @@ class ShiftJump : BaseAbilityPlugin() {
             shiftJump.chargeAmountDays = 0.0f
             shiftJump.initialChargeCostPerDay = shiftJump.computeAndCacheChargeCostPerDay()
             shiftJump.showFloatingText("Charging shift drive...", Misc.setAlpha(shiftJump.fleet.indicatorColor, 255))
-            shiftJump.fleet.stats.detectedRangeMod.modifyFlat("woe_shift_jump", WOESettings.shiftJumpSensorProfilePenalty, "Shift drive charging")
+            shiftJump.fleet.stats.detectedRangeMod.modifyFlat(WOEAbilities.SHIFT_JUMP, WOESettings.shiftJumpSensorProfilePenalty, "Shift drive charging")
         }
 
         override fun exit() {
-            shiftJump.fleet.stats.detectedRangeMod.unmodify("woe_shift_jump")
+            shiftJump.fleet.stats.detectedRangeMod.unmodify(WOEAbilities.SHIFT_JUMP)
         }
 
         override fun advance(amount: Float): State? {
