@@ -1,7 +1,3 @@
 fieldID,fieldName,fieldType,defaultValue,secondaryValue,fieldDescription,minValue,maxValue,tab
-woe_luminaruHeader,Luminaru,Header,,,,,,Sector
-woe_luminaruHyperspaceLocationX,Hyperspace Location X,Double,2500,,,-10000,10000,Sector
-woe_luminaruHyperspaceLocationY,Hyperspace Location Y,Double,-5400,,,-10000,10000,Sector
-woe_huxleyPopulationSize,Huxley Population Size,Int,4,,,1,8,Sector
-woe_wingsOfEnteriaPopulationSize,Wings of Enteria Population Size,Int,6,,,1,8,Sector
+,,,,,,,,
 ,,,,,,,,

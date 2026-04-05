@@ -1,12 +1,5 @@
-Lunalib itself holds a file that you can copy under the same location. "lunalib" has to be replaced with your own mods ID.
-
 {
-    #change the id to your mod id.
-    "lunalib": {
-
-        #If not "", loads a custom icon for the mod in the settings menu.
-        #The image has to be preloaded already or it will not appear. It can be loaded through a commodity, weapon, hullmod or ship, or by adding an entry in settings.json under graphics.
-        #The image can technicly be any size, 40x40 will see no adjustment however, but any larger or smaller sizes are fine aswell, important part is to keep the width and height the same.
+    "johnShmo_wingsOfEnteria": {
         "iconPath":"graphics/wings_of_enteria/icons/abilities/shift_jump.png", 
     }
 }

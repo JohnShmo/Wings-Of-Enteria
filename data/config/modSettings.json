@@ -18,7 +18,7 @@
     "shiftJumpChargeTimeDays": 3.0,
     "shiftJumpChargeTransplutonicsPerDayPerDP": 0.05,
     "shiftJumpCooldownDays": 5.0,
-    "shiftJumpMaxRangeLY": 20.0,
+    "shiftJumpMaxRangeLY": 15.0,
     "shiftJumpMinFuelCostMultiplier": 0.5,
     "shiftJumpMaxFuelCostMultiplier": 1.5,
     "shiftJumpMinCRCost": 0.01,

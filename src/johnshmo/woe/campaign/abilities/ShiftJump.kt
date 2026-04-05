@@ -481,25 +481,23 @@ class ShiftJump : BaseAbilityPlugin() {
         val daysToCharge = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpChargeTimeDays)
         val totalTransplutonicsCost = (computeAndCacheChargeCostPerDay() * WOESettings.shiftJumpChargeTimeDays).toInt().toString()
         val sensorProfilePenalty = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpSensorProfilePenalty)
-        val transplutonicsString = "transplutonics"
+        val maxRange = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpMaxRangeLY)
         tooltip.addPara(
-            "Initially, the shift drive must charge. This consumes %s %s per day (depending on the " +
-                    "fleet's total deployment points) over the course of %s days (for a total of %s %s). The fleet's sensor profile is increased " +
-                    "by %s during this time. Additionally, the use of any burn-drive-related abilities is prohibited while charging.",
+            "Initially, the shift drive must charge. This consumes %s transplutonics per day (depending on the " +
+                    "fleet's total deployment points) over the course of %s days (for a total of %s transplutonics). The fleet's sensor profile is increased " +
+                    "by %s' units during this time. The use of any burn-drive-related abilities is prohibited while charging.",
             pad, hl,
             transplutonicsCostPerDay,
-            transplutonicsString,
             daysToCharge,
             totalTransplutonicsCost,
-            transplutonicsString,
             sensorProfilePenalty
         )
         tooltip.addPara(
-            "Once the shift drive is charged, a target star system may be selected to jump to. This will incur a fuel " +
+            "Once ready, a target star system up to %s light years away can be selected to jump to. This will incur a fuel " +
                     "and recovery cost depending on the distance traveled. Shorter distances are more fuel-efficient than " +
                     "normal hyperspace travel, but longer distances are more expensive. Ships may be damaged or destroyed " +
                     "if their combat readiness is not sufficient for the jump.",
-            pad
+            pad, hl, maxRange
         )
         tooltip.addPara(
             "If the fleet's total deployment points changes significantly at any point while the shift drive is operating, " +
