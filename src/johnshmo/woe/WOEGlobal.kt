@@ -5,7 +5,7 @@ import org.apache.log4j.Logger
 
 class WOEGlobal private constructor() {
     private val data: MutableMap<String, Any> = HashMap()
-    val customData: MutableMap<String, Any> = HashMap()
+    private val _customData: MutableMap<String, Any> = HashMap()
 
     init {
         Global.getSector().persistentData[GLOBAL_ID] = this
@@ -33,6 +33,9 @@ class WOEGlobal private constructor() {
                     WOEGlobal()
                 }
             }
+
+        val customData: MutableMap<String, Any>
+            get() = instance._customData
 
         val generator: WOEGenerator
             get() {
