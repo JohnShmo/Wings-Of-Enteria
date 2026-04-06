@@ -248,10 +248,11 @@ class ShiftJump : BaseAbilityPlugin() {
     }
 
     private fun advanceDeactivationBlink(amount: Float) {
-        if (blinking) {
+        if (blinking || state == State.READY) {
             blinkIntensity.set(1.0f, 0.25f)
             blinkTimer -= amount
             if (blinkTimer <= 0.0f) {
+                blinkTimer = 0.0f
                 blinking = false
             }
         } else {
@@ -485,7 +486,7 @@ class ShiftJump : BaseAbilityPlugin() {
         tooltip.addPara(
             "Initially, the shift drive must charge. This consumes %s transplutonics per day (depending on the " +
                     "fleet's total deployment points) over the course of %s days (for a total of %s transplutonics). The fleet's sensor profile is increased " +
-                    "by %s' units during this time. The use of any burn-drive-related abilities is prohibited while charging.",
+                    "by %s* units during this time. The use of any burn-drive-related abilities is prohibited while charging.",
             pad, hl,
             transplutonicsCostPerDay,
             daysToCharge,
@@ -494,9 +495,7 @@ class ShiftJump : BaseAbilityPlugin() {
         )
         tooltip.addPara(
             "Once ready, a target star system up to %s light years away can be selected to jump to. This will incur a fuel " +
-                    "and recovery cost depending on the distance traveled. Shorter distances are more fuel-efficient than " +
-                    "normal hyperspace travel, but longer distances are more expensive. Ships may be damaged or destroyed " +
-                    "if their combat readiness is not sufficient for the jump.",
+                    "and recovery cost depending on the distance traveled.**",
             pad, hl, maxRange
         )
         tooltip.addPara(
@@ -506,6 +505,10 @@ class ShiftJump : BaseAbilityPlugin() {
             pad, neg,
             "the shift field will become unstable, and the jump will be aborted"
         )
+        tooltip.addPara("*2000 units = 1 map grid cell", gray, pad)
+        tooltip.addPara("**Shorter distances are more fuel-efficient than normal hyperspace travel, but longer " +
+                "distances are more expensive. Ships may be damaged or destroyed if their combat readiness is not " +
+                "sufficient for the jump.", gray, pad)
     }
 
     companion object {
@@ -957,7 +960,6 @@ class ShiftJump : BaseAbilityPlugin() {
 
     private class ReadyState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
         override fun enter() {
-            shiftJump.blinking = true
             shiftJump.showFloatingText("Ready for shift jump", Misc.setAlpha(shiftJump.fleet.indicatorColor, 255))
         }
 
@@ -968,7 +970,6 @@ class ShiftJump : BaseAbilityPlugin() {
                 shiftJump.showFloatingText("Shift drive field destabilized", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
                 return null
             }
-            shiftJump.blinking = true
             return State.READY
         }
     }

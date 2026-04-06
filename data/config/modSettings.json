@@ -15,8 +15,8 @@
     "enterianConcordAmmoCapacityBonusPercent": 20,
     "enterianConcordZeroFluxSpeedPenaltyMult": 0.85,
 
-    "shiftJumpChargeTimeDays": 3.0,
-    "shiftJumpChargeTransplutonicsPerDayPerDP": 0.05,
+    "shiftJumpChargeTimeDays": 5.0,
+    "shiftJumpChargeTransplutonicsPerDayPerDP": 0.055,
     "shiftJumpCooldownDays": 5.0,
     "shiftJumpMaxRangeLY": 15.0,
     "shiftJumpMinFuelCostMultiplier": 0.5,
