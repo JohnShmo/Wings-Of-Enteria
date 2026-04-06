@@ -444,7 +444,9 @@ class ShiftJump : BaseAbilityPlugin() {
 
     override fun fleetJoinedBattle(battle: BattleAPI?) {
         deactivate()
-        showFloatingText("Shift drive field destabilized", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
+        if (state != State.INACTIVE) {
+            showFloatingText("Shift drive field destabilized", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
+        }
     }
 
     override fun createTooltip(tooltip: TooltipMakerAPI?, expanded: Boolean) {
