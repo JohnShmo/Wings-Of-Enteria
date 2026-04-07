@@ -217,6 +217,7 @@ class ShifterRiftCloud : BaseCustomEntityPlugin() {
                 CampaignEngineLayers.BELOW_STATIONS -> riftRenderer.renderCore()
                 else -> {}
             }
+            riftRenderer.clear()
         } catch (_: Exception) {
         }
     }

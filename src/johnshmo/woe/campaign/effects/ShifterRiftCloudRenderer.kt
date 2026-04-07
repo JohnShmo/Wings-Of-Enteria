@@ -15,8 +15,8 @@ class ShifterRiftCloudRenderer {
     @Transient
     private val requests: MutableList<Request> = ArrayList<Request>()
 
-    fun addRequest(request: Request?) {
-        requests.add(request!!)
+    fun addRequest(request: Request) {
+        requests.add(request)
     }
 
     fun renderFringe() {
@@ -37,8 +37,6 @@ class ShifterRiftCloudRenderer {
             fringeSprite.angle = request.angle
             fringeSprite.renderAtCenter(x, y)
         }
-
-        requests.clear()
     }
 
     fun renderCore() {
@@ -58,7 +56,9 @@ class ShifterRiftCloudRenderer {
             coreSprite.angle = request.angle
             coreSprite.renderAtCenter(x, y)
         }
+    }
 
+    fun clear() {
         requests.clear()
     }
 

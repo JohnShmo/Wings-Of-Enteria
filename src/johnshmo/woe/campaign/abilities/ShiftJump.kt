@@ -52,15 +52,18 @@ class ShiftJump : BaseAbilityPlugin() {
             sm[State.JUMPING] = JumpingState(this)
             sm[State.FINISHED] = FinishedState(this)
             sm[State.COOLDOWN] = CooldownState(this)
-            sm.state = State.INACTIVE
+            sm.stateId = State.INACTIVE
             sm
         } as StateMachine<State>
 
-    private var state: State
-        get() = stateMachine.state ?: State.INACTIVE
+    private var stateId: State
+        get() = stateMachine.stateId ?: State.INACTIVE
         set(value) {
-            stateMachine.state = value
+            stateMachine.stateId = value
         }
+
+    private val state: ShiftJumpState
+        get() = stateMachine.getCurrent()!! as ShiftJumpState
 
     private var chargeAmountDays: Float
         get() = data.getOrPut("chargeAmountDays") { 0.0f } as Float
@@ -220,35 +223,18 @@ class ShiftJump : BaseAbilityPlugin() {
         if (Global.getSector().isPaused) return
         super.advance(amount)
         stateMachine.advance(amount)
-        if (state != State.INACTIVE) {
+        if (isActive) {
             interruptIncompatible()
             disableIncompatible()
         }
     }
 
     override fun isCompatible(other: AbilityPlugin?): Boolean {
-        val currentState = state
-        if (currentState == State.CHARGING) {
-            return when (other) {
-                is SustainedBurnAbility -> false
-                is EmergencyBurnAbility -> false
-                is FractureJumpAbility -> false
-                is GenerateSlipsurgeAbility -> false
-                is GoDarkAbility -> false
-                else -> true
-            }
-        }
-        if (currentState == State.JUMPING) {
-            return when (other) {
-                is TransponderAbility -> true
-                else -> false
-            }
-        }
-        return true
+        return state.isCompatible(other)
     }
 
     private fun advanceDeactivationBlink(amount: Float) {
-        if (blinking || state == State.READY) {
+        if (blinking || stateId == State.READY) {
             blinkIntensity.set(1.0f, 0.25f)
             blinkTimer -= amount
             if (blinkTimer <= 0.0f) {
@@ -274,12 +260,7 @@ class ShiftJump : BaseAbilityPlugin() {
     }
 
     override fun getSpriteName(): String {
-        return when (state) {
-            State.INACTIVE -> Global.getSettings().getSpriteName(ICON_CATEGORY, INACTIVE_ICON_SPRITE_NAME)
-            State.CHARGING -> Global.getSettings().getSpriteName(ICON_CATEGORY, CHARGING_ICON_SPRITE_NAME)
-            State.READY -> Global.getSettings().getSpriteName(ICON_CATEGORY, READY_ICON_SPRITE_NAME)
-            else -> Global.getSettings().getSpriteName(ICON_CATEGORY, ICON_SPRITE_NAME)
-        }
+        return Global.getSettings().getSpriteName(ICON_CATEGORY, state.spriteId)
     }
 
     private fun computeAndCacheChargeCostPerDay(): Float {
@@ -301,129 +282,46 @@ class ShiftJump : BaseAbilityPlugin() {
         return abs(chargeCost - initialChargeCostPerDay) <= CHARGE_COST_EPSILON
     }
 
+    override fun pressButton() {
+        state.onPressButton()
+    }
+
     override fun activate() {
-        val currentState = state
-        if (currentState == State.INACTIVE) {
-            super.activate()
-            state = State.CHARGING
-        } else if (currentState == State.READY) {
-            state = State.SELECTING_TARGET
+        val result = state.onActivate()
+        if (result != null) {
+            stateId = result
         }
     }
 
     override fun deactivate() {
-        val currentState = state
-        if (currentState == State.INACTIVE) {
-            return
-        }
-        if (currentState == State.CHARGING || currentState == State.READY || currentState == State.SELECTING_TARGET || currentState == State.JUMPING) {
-            super.deactivate()
-            state = State.INACTIVE
-        } else {
-            state = State.COOLDOWN
+        val result = state.onDeactivate()
+        if (result != null) {
+            stateId = result
         }
     }
 
     override fun getCooldownFraction(): Float {
-        val currentState = state
-        if (currentState == State.CHARGING) {
-            val daysToCharge = WOESettings.shiftJumpChargeTimeDays
-            return 1.0f - (chargeAmountDays / daysToCharge)
-        }
-        if (currentState == State.COOLDOWN) {
-            val totalCooldownDays = WOESettings.shiftJumpCooldownDays
-            return 1.0f - (cooldownDays / totalCooldownDays)
-        }
-        if (currentState == State.READY) {
-            return 0.0f
-        }
-        return super.getCooldownFraction()
+        return state.cooldownFraction
     }
 
     override fun getCooldownColor(): Color? {
-        val currentState = state
-        if (currentState == State.CHARGING) {
-            val t: Float = ((sin(blinkValue) + 1.0f) * 0.5f) * blinkIntensity.value
-            val blinkColor = DEACTIVATION_BLINK_COLOR
-            val defaultColor = CHARGE_UP_COLOR
-            return lerpColors(defaultColor, blinkColor, t)
-        }
-        if (currentState == State.READY) {
-            val t: Float = ((sin(blinkValue) + 1.0f) * 0.5f) * blinkIntensity.value
-            val blinkColor = Color(255, 255, 255, 0)
-            val defaultColor = CHARGE_UP_COLOR
-            return lerpColors(defaultColor, blinkColor, t)
-        }
-        return super.getCooldownColor()
-    }
-
-    override fun getActiveColor(): Color? {
-        if (state == State.CHARGING) {
-            val t: Float = ((sin(blinkValue) + 1.0f) * 0.5f) * blinkIntensity.value
-            val blinkColor = DEACTIVATION_BLINK_COLOR
-            val defaultColor = super.activeColor
-            return lerpColors(defaultColor, blinkColor, t)
-        }
-        return super.getActiveColor()
+        return state.cooldownColor
     }
 
     override fun isOnCooldown(): Boolean {
-        return state == State.COOLDOWN
+        return stateId == State.COOLDOWN
     }
 
     override fun isCooldownRenderingAdditive(): Boolean {
-        val currentState = state
-        if (currentState == State.CHARGING || currentState == State.READY) {
-            return true
-        }
-        return super.isCooldownRenderingAdditive()
+        return state.isCooldownRenderingAdditive
     }
 
     override fun isUsable(): Boolean {
-        if (disableFrames > 0) {
-            return false
-        }
-        if (state == State.INACTIVE) {
-            val chargeCostPerDay = WOESettings.shiftJumpChargeTransplutonicsPerDayPerDP
-            val cargo = fleet.cargo
-            val quantity = cargo.getCommodityQuantity(Commodities.RARE_METALS)
-            if ((chargeCostPerDay > 0f) && (quantity <= 0f)) {
-                return false
-            }
-        }
-        return super.isUsable()
+        return state.isUsable
     }
 
     override fun showCooldownIndicator(): Boolean {
-        val currentState = state
-        return currentState == State.COOLDOWN || currentState == State.CHARGING || currentState == State.READY
-    }
-
-    override fun pressButton() {
-        when (state) {
-            State.CHARGING -> {
-                if (!blinking) {
-                    blinking = true
-                    blinkTimer = BLINK_DURATION
-                    playUISound(offSoundUI, 1.5f, 0.5f)
-                    return
-                }
-                blinking = false
-                deactivate()
-                playUISound(offSoundUI)
-            }
-            State.INACTIVE -> {
-                activate()
-                playUISound(onSoundUI)
-            }
-            State.READY -> {
-                activate()
-                playUISound(onSoundUI)
-            }
-            else -> {
-                // Do nothing
-            }
-        }
+       return state.shouldShowCooldownIndicator
     }
 
     private fun playUISound(soundId: String?, pitch: Float = 1f, volume: Float = 1f) {
@@ -438,14 +336,14 @@ class ShiftJump : BaseAbilityPlugin() {
     }
 
     override fun isActive(): Boolean {
-        val currentState = state
-        return currentState != State.INACTIVE && currentState != State.COOLDOWN
+        return state.isActive
     }
 
-    override fun fleetJoinedBattle(battle: BattleAPI?) {
-        deactivate()
-        if (state != State.INACTIVE) {
+    override fun fleetLeftBattle(battle: BattleAPI?, engagedInHostilies: Boolean) {
+        if (!engagedInHostilies) return
+        if (isActive) {
             showFloatingText("Shift drive field destabilized", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
+            deactivate()
         }
     }
 
@@ -458,7 +356,7 @@ class ShiftJump : BaseAbilityPlugin() {
         val hl = Misc.getHighlightColor()
         val neg = Misc.getNegativeHighlightColor()
 
-        val status = when (state) {
+        val status = when (stateId) {
             State.INACTIVE -> " (off)"
             State.CHARGING -> " (charging)"
             State.COOLDOWN -> " (cooldown)"
@@ -692,6 +590,42 @@ class ShiftJump : BaseAbilityPlugin() {
         override fun advance(amount: Float): State? {
             return null
         }
+
+        open fun onPressButton() {
+
+        }
+
+        open fun onActivate(): State? { return null }
+
+        open fun onDeactivate(): State? {
+            if (shiftJump.fleet != null && shiftJump.fleet.isPlayerFleet) {
+                Global.getSector().reportPlayerDeactivatedAbility(shiftJump, null)
+            }
+            return State.INACTIVE
+        }
+
+        open fun isCompatible(other: AbilityPlugin?): Boolean { return true }
+
+        open val isUsable: Boolean
+            get() = !shiftJump.isOnCooldown && shiftJump.disableFrames <= 0
+
+        open val isActive
+            get() = true
+
+        open val spriteId: String
+            get() = ICON_SPRITE_NAME
+
+        open val shouldShowCooldownIndicator: Boolean
+            get() = false
+
+        open val isCooldownRenderingAdditive: Boolean
+            get() = false
+
+        open val cooldownFraction: Float
+            get() = 1.0f
+
+        open val cooldownColor: Color
+            get() = Color(0,0,0,171)
     }
 
     private class ChargeState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
@@ -745,6 +679,52 @@ class ShiftJump : BaseAbilityPlugin() {
 
             return State.CHARGING
         }
+
+        override fun onPressButton() {
+            if (!shiftJump.blinking) {
+                shiftJump.blinking = true
+                shiftJump.blinkTimer = BLINK_DURATION
+                shiftJump.playUISound(shiftJump.offSoundUI, 1.5f, 0.5f)
+                return
+            }
+            shiftJump.blinking = false
+            shiftJump.playUISound(shiftJump.offSoundUI)
+            shiftJump.deactivate()
+        }
+
+        override fun isCompatible(other: AbilityPlugin?): Boolean {
+            return when (other) {
+                is SustainedBurnAbility -> false
+                is EmergencyBurnAbility -> false
+                is FractureJumpAbility -> false
+                is GenerateSlipsurgeAbility -> false
+                is GoDarkAbility -> false
+                else -> true
+            }
+        }
+
+        override val cooldownFraction: Float
+            get() {
+                val daysToCharge = WOESettings.shiftJumpChargeTimeDays
+                return 1.0f - (shiftJump.chargeAmountDays / daysToCharge)
+            }
+
+        override val cooldownColor: Color
+            get() {
+                val t: Float = ((sin(shiftJump.blinkValue) + 1.0f) * 0.5f) * shiftJump.blinkIntensity.value
+                val blinkColor = DEACTIVATION_BLINK_COLOR
+                val defaultColor = CHARGE_UP_COLOR
+                return lerpColors(defaultColor, blinkColor, t)
+            }
+
+        override val isCooldownRenderingAdditive: Boolean
+            get() = true
+
+        override val shouldShowCooldownIndicator: Boolean
+            get() = true
+
+        override val spriteId: String
+            get() = CHARGING_ICON_SPRITE_NAME
     }
 
     private class CooldownState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
@@ -760,10 +740,33 @@ class ShiftJump : BaseAbilityPlugin() {
             }
             return State.COOLDOWN
         }
+
+        override val cooldownFraction: Float
+            get() {
+                val daysToCooldown = WOESettings.shiftJumpCooldownDays
+                return 1.0f - (shiftJump.cooldownDays / daysToCooldown)
+            }
+
+        override val shouldShowCooldownIndicator: Boolean
+            get() = true
+
+        override fun onDeactivate(): State? {
+            return null
+        }
+
+        override val isActive: Boolean
+            get() = false
     }
 
     private class FinishedState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
         override fun advance(amount: Float): State {
+            return State.COOLDOWN
+        }
+
+        override fun onDeactivate(): State {
+            if (shiftJump.fleet != null && shiftJump.fleet.isPlayerFleet) {
+                Global.getSector().reportPlayerDeactivatedAbility(shiftJump, null)
+            }
             return State.COOLDOWN
         }
     }
@@ -773,6 +776,39 @@ class ShiftJump : BaseAbilityPlugin() {
             shiftJump.cooldownDays = 0.0f
             shiftJump.blinking = false
         }
+
+        override val spriteId: String
+            get() = INACTIVE_ICON_SPRITE_NAME
+
+        override fun onPressButton() {
+            shiftJump.playUISound(shiftJump.onSoundUI)
+            shiftJump.activate()
+        }
+
+        override fun onActivate(): State {
+            if (shiftJump.fleet != null && shiftJump.fleet.isPlayerFleet) {
+                Global.getSector().reportPlayerActivatedAbility(shiftJump, null)
+            }
+            return State.CHARGING
+        }
+
+        override fun onDeactivate(): State? {
+            return null
+        }
+
+        override val isUsable: Boolean
+            get() {
+                val chargeCostPerDay = WOESettings.shiftJumpChargeTransplutonicsPerDayPerDP
+                val cargo = shiftJump.fleet.cargo
+                val quantity = cargo.getCommodityQuantity(Commodities.RARE_METALS)
+                if ((chargeCostPerDay > 0f) && (quantity <= 0f)) {
+                    return false
+                }
+                return super.isUsable
+            }
+
+        override val isActive: Boolean
+            get() = false
     }
 
     private class JumpingState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
@@ -905,7 +941,6 @@ class ShiftJump : BaseAbilityPlugin() {
 
         override fun enter() {
             if (shiftJump.pickedTarget == null) return
-            shiftJump.cooldownDays = WOESettings.shiftJumpCooldownDays
             spawnPrimedPing()
             jumpTimerDays = JUMP_TIMER_DAYS
             if (jumpTarget != null) {
@@ -950,6 +985,13 @@ class ShiftJump : BaseAbilityPlugin() {
             return State.JUMPING
         }
 
+        override fun isCompatible(other: AbilityPlugin?): Boolean {
+            return when (other) {
+                is TransponderAbility -> true
+                else -> false
+            }
+        }
+
         companion object {
             private const val PRIME_PING_ID = "woe_shift_jump_prime"
             private const val ACTIVATE_PING_ID = "woe_shift_jump_activate"
@@ -974,6 +1016,32 @@ class ShiftJump : BaseAbilityPlugin() {
             }
             return State.READY
         }
+
+        override fun onPressButton() {
+            shiftJump.playUISound(shiftJump.onSoundUI)
+            shiftJump.activate()
+        }
+
+        override fun onActivate(): State {
+            return State.SELECTING_TARGET
+        }
+
+        override val cooldownFraction: Float
+            get() = 0.0f
+
+        override val shouldShowCooldownIndicator: Boolean
+            get() = true
+
+        override val cooldownColor: Color
+            get() {
+                val t: Float = ((sin(shiftJump.blinkValue) + 1.0f) * 0.5f) * shiftJump.blinkIntensity.value
+                val blinkColor = Color(255, 255, 255, 0)
+                val defaultColor = CHARGE_UP_COLOR
+                return lerpColors(defaultColor, blinkColor, t)
+            }
+
+        override val spriteId: String
+            get() = READY_ICON_SPRITE_NAME
     }
 
     private class SelectingTargetState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {

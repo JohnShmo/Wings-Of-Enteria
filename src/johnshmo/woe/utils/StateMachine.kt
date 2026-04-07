@@ -4,21 +4,21 @@ class StateMachine<T> where T : Enum<T> {
     private var currentState: T? = null
     private val states: MutableMap<T, State<T>> = HashMap()
 
-    var state: T?
+    var stateId: T?
         get() = currentState
         set(value) = changeState(value)
 
-    operator fun get(state: T) = states[state]
+    operator fun get(stateId: T) = states[stateId]
 
-    operator fun set(state: T, impl: State<T>?) {
+    operator fun set(stateId: T, impl: State<T>?) {
         if (impl == null) {
-            unregisterState(state)
+            unregisterState(stateId)
             return
         }
-        registerState(state, impl)
+        registerState(stateId, impl)
     }
 
-    operator fun contains(state: T) = states.containsKey(state)
+    operator fun contains(stateId: T) = states.containsKey(stateId)
 
     fun changeState(newState: T?) {
         if (currentState == newState) return
@@ -41,12 +41,12 @@ class StateMachine<T> where T : Enum<T> {
         }
     }
 
-    fun registerState(state: T, impl: State<T>) {
-        states[state] = impl
+    fun registerState(stateId: T, state: State<T>) {
+        states[stateId] = state
     }
 
-    fun unregisterState(state: T) {
-        states.remove(state)
+    fun unregisterState(stateId: T) {
+        states.remove(stateId)
     }
 
     fun getCurrent(): State<T>? {
