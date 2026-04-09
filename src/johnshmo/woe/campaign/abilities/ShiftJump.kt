@@ -13,6 +13,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import johnshmo.woe.WOEAbilities
+import johnshmo.woe.WOEGlobal
 import johnshmo.woe.WOESettings
 import johnshmo.woe.WOESprites
 import johnshmo.woe.campaign.entities.ShifterRiftCloud
@@ -94,6 +95,7 @@ class ShiftJump : BaseAbilityPlugin() {
         }
 
     // Transient Data Section ==========================================================================================
+
     @Transient
     private var _cachedChargeCostValue: Float? = null
     private var cachedChargeCostValue: Float
@@ -210,7 +212,7 @@ class ShiftJump : BaseAbilityPlugin() {
         return lerp(WOESettings.shiftJumpMinCRCost, WOESettings.shiftJumpMaxCRCost, easeInCubic(t))
     }
 
-    fun getMaxRangeLY(): Int {
+    fun computeMaxRangeLY(): Int {
         return WOESettings.shiftJumpMaxRangeLY.toInt()
     }
 
@@ -222,10 +224,14 @@ class ShiftJump : BaseAbilityPlugin() {
         advanceDeactivationBlink(amount)
         if (Global.getSector().isPaused) return
         super.advance(amount)
-        stateMachine.advance(amount)
-        if (isActive) {
-            interruptIncompatible()
-            disableIncompatible()
+        try {
+            stateMachine.advance(amount)
+            if (isActive) {
+                interruptIncompatible()
+                disableIncompatible()
+            }
+        } catch (e: Exception) {
+            WOEGlobal.logger.error("Error advancing ShiftJump ability: ${e.message}", e)
         }
     }
 
@@ -283,20 +289,32 @@ class ShiftJump : BaseAbilityPlugin() {
     }
 
     override fun pressButton() {
-        state.onPressButton()
+        try {
+            state.onPressButton()
+        } catch (e: Exception) {
+            WOEGlobal.logger.error("Error pressing ShiftJump ability: ${e.message}", e)
+        }
     }
 
     override fun activate() {
-        val result = state.onActivate()
-        if (result != null) {
-            stateId = result
+        try {
+            val result = state.onActivate()
+            if (result != null) {
+                stateId = result
+            }
+        } catch (e: Exception) {
+            WOEGlobal.logger.error("Error activating ShiftJump ability: ${e.message}", e)
         }
     }
 
     override fun deactivate() {
-        val result = state.onDeactivate()
-        if (result != null) {
-            stateId = result
+        try {
+            val result = state.onDeactivate()
+            if (result != null) {
+                stateId = result
+            }
+        } catch (e: Exception) {
+            WOEGlobal.logger.error("Error deactivating ShiftJump ability: ${e.message}", e)
         }
     }
 
@@ -304,7 +322,7 @@ class ShiftJump : BaseAbilityPlugin() {
         return state.cooldownFraction
     }
 
-    override fun getCooldownColor(): Color? {
+    override fun getCooldownColor(): Color {
         return state.cooldownColor
     }
 
@@ -355,6 +373,12 @@ class ShiftJump : BaseAbilityPlugin() {
         val gray = Misc.getGrayColor()
         val hl = Misc.getHighlightColor()
         val neg = Misc.getNegativeHighlightColor()
+        val transplutonicsCostPerDay = Misc.getRoundedValueMaxOneAfterDecimal(computeAndCacheChargeCostPerDay())
+        val daysToCharge = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpChargeTimeDays)
+        val totalTransplutonicsCost = (computeAndCacheChargeCostPerDay() * WOESettings.shiftJumpChargeTimeDays).toInt().toString()
+        val sensorProfilePenalty = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpSensorProfilePenalty)
+        val maxRange = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpMaxRangeLY)
+        val codexMode = Global.CODEX_TOOLTIP_MODE
 
         val status = when (stateId) {
             State.INACTIVE -> " (off)"
@@ -365,39 +389,48 @@ class ShiftJump : BaseAbilityPlugin() {
             else -> ""
         }
 
-        if (!Global.CODEX_TOOLTIP_MODE) {
+        if (codexMode) {
+            tooltip.addSpacer(-10f)
+        } else {
             val title = tooltip.addTitle(spec.name + status)
             title.highlightLast(status)
             title.setHighlightColor(gray)
-        } else {
-            tooltip.addSpacer(-10f)
         }
 
         tooltip.addPara("Allows the fleet - using its integrated shift drive - to teleport to a different star " +
                 "system, bypassing hyperspace. This maneuver is highly volatile and requires a stable shift field.",
             pad
         )
-
-        val transplutonicsCostPerDay = Misc.getRoundedValueMaxOneAfterDecimal(computeAndCacheChargeCostPerDay())
-        val daysToCharge = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpChargeTimeDays)
-        val totalTransplutonicsCost = (computeAndCacheChargeCostPerDay() * WOESettings.shiftJumpChargeTimeDays).toInt().toString()
-        val sensorProfilePenalty = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpSensorProfilePenalty)
-        val maxRange = Misc.getRoundedValueMaxOneAfterDecimal(WOESettings.shiftJumpMaxRangeLY)
-        tooltip.addPara(
-            "Initially, the shift drive must charge. This consumes %s transplutonics per day (depending on the " +
-                    "fleet's total deployment points) over the course of %s days (for a total of %s transplutonics). The fleet's sensor profile is increased " +
-                    "by %s* units during this time. The use of any burn-drive-related abilities is prohibited while charging.",
-            pad, hl,
-            transplutonicsCostPerDay,
-            daysToCharge,
-            totalTransplutonicsCost,
-            sensorProfilePenalty
-        )
-        tooltip.addPara(
-            "Once ready, a target star system up to %s light years away can be selected to jump to. This will incur a fuel " +
-                    "and recovery cost depending on the distance traveled.**",
-            pad, hl, maxRange
-        )
+        if (codexMode) {
+            tooltip.addPara(
+                "Initially, the shift drive must charge. This consumes an amount of transplutonics per day (depending on the " +
+                        "fleet's total deployment points) over the course of a few days. The fleet's sensor profile is increased " +
+                        "by %s* units during this time. The use of any burn-drive-related abilities is prohibited while charging.",
+                pad, hl, sensorProfilePenalty
+            )
+            tooltip.addPara(
+                "Once ready, a target star system can be selected to jump to. This will incur a fuel " +
+                        "and recovery cost depending on the distance traveled.**",
+                pad, hl, maxRange
+            )
+        }
+        else {
+            tooltip.addPara(
+                "Initially, the shift drive must charge. This consumes %s transplutonics per day (depending on the " +
+                        "fleet's total deployment points) over the course of %s days (for a total of %s transplutonics). The fleet's sensor profile is increased " +
+                        "by %s* units during this time. The use of any burn-drive-related abilities is prohibited while charging.",
+                pad, hl,
+                transplutonicsCostPerDay,
+                daysToCharge,
+                totalTransplutonicsCost,
+                sensorProfilePenalty
+            )
+            tooltip.addPara(
+                "Once ready, a target star system up to %s light years away can be selected to jump to. This will incur a fuel " +
+                        "and recovery cost depending on the distance traveled.**",
+                pad, hl, maxRange
+            )
+        }
         tooltip.addPara(
             "If the fleet's total deployment points changes significantly at any point while the shift drive is operating, " +
                     "or if the fleet enters combat, %s. " +
@@ -410,6 +443,8 @@ class ShiftJump : BaseAbilityPlugin() {
                 "distances are more expensive. Ships may be damaged or destroyed if their combat readiness is not " +
                 "sufficient for the jump.", gray, pad)
     }
+
+    override fun runWhilePaused(): Boolean = true
 
     companion object {
         private const val BLINK_SPEED: Float = 5.0f
@@ -425,151 +460,6 @@ class ShiftJump : BaseAbilityPlugin() {
     }
 
     // Helper Classes ==================================================================================================
-
-    private class DestinationPicker : InteractionDialogPlugin {
-        @Transient
-        private var shiftJump: ShiftJump? = null
-
-        @Transient
-        private var dialog: InteractionDialogAPI? = null
-
-        override fun init(dialog: InteractionDialogAPI?) {
-            this.dialog = dialog
-            this.dialog!!.showCampaignEntityPicker(
-                "Select destination", "Destination:", "Initiate Shift Jump",
-                Global.getSector().playerFaction,
-                this.shiftJump?.getValidDestinationList(),
-                DestinationPickerListener(this.dialog, this.shiftJump)
-            )
-            unsetFields()
-        }
-
-        override fun optionSelected(optionText: String?, optionData: Any?) {
-        }
-
-        override fun optionMousedOver(optionText: String?, optionData: Any?) {
-        }
-
-        override fun advance(amount: Float) {
-        }
-
-        override fun backFromEngagement(battleResult: EngagementResultAPI?) {
-            // I sure hope we don't end up here somehow...
-        }
-
-        override fun getContext(): Any? {
-            return null
-        }
-
-        override fun getMemoryMap(): MutableMap<String?, MemoryAPI?>? {
-            return null
-        }
-
-        private fun unsetFields() {
-            this.shiftJump = null
-            this.dialog = null
-        }
-
-        companion object {
-            fun execute(shiftJump: ShiftJump) {
-                val ui = Global.getSector().campaignUI
-                val picker = DestinationPicker()
-                picker.shiftJump = shiftJump
-                ui.showInteractionDialog(picker, null)
-            }
-        }
-    }
-
-    private class DestinationPickerListener(
-        @field:Transient private var dialog: InteractionDialogAPI?,
-        @field:Transient private var shiftJump: ShiftJump?
-    ) : BaseCampaignEntityPickerListener() {
-        @Transient
-        private var playerFleet: CampaignFleetAPI?
-
-        init {
-            playerFleet = Global.getSector().playerFleet
-        }
-
-        override fun getMenuItemNameOverrideFor(entity: SectorEntityToken?): String? {
-            return null
-        }
-
-        override fun pickedEntity(entity: SectorEntityToken?) {
-            shiftJump?.pickedTarget = entity
-            dialog?.dismiss()
-            unsetFields()
-            Global.getSector().isPaused = false
-        }
-
-        override fun cancelledEntityPicking() {
-            dialog?.dismiss()
-            unsetFields()
-            Global.getSector().isPaused = false
-        }
-
-        override fun getSelectedTextOverrideFor(entity: SectorEntityToken): String {
-            return entity.name + " - " + entity.containingLocation.nameWithTypeShort
-        }
-
-        override fun createInfoText(info: TooltipMakerAPI, entity: SectorEntityToken) {
-            if (shiftJump == null || playerFleet == null) return
-
-            val cost: Int = shiftJump!!.computeFuelCost(entity)
-            val crPenalty = (shiftJump!!.computeCRCost(entity).times(100f)).toInt()
-            val available = playerFleet!!.cargo.fuel.toInt()
-            val maxRange: Int = shiftJump!!.getMaxRangeLY()
-            val distance = Misc.getDistanceLY(playerFleet!!, entity).toInt()
-            val supplyCost: Float = computeSupplyCostForCRRecovery(playerFleet!!, shiftJump!!.computeCRCost(entity))
-
-            var requiredFuelColor = Misc.getHighlightColor()
-            val highlightColor = Misc.getHighlightColor()
-            if (cost > available) {
-                requiredFuelColor = Misc.getNegativeHighlightColor()
-            }
-
-            info.setParaSmallInsignia()
-
-            info.beginGrid(200f, 3, Misc.getGrayColor())
-            info.setGridFontSmallInsignia()
-            info.addToGrid(0, 0, "    Maximum range (LY):", maxRange.toString(), highlightColor)
-            info.addToGrid(1, 0, " |  Fuel available:", Misc.getWithDGS(available.toFloat()), highlightColor)
-            if (crPenalty > 0) info.addToGrid(2, 0, " |  CR penalty:", "$crPenalty%", highlightColor)
-            info.addGrid(0f)
-
-            info.beginGrid(200f, 3, Misc.getGrayColor())
-            info.setGridFontSmallInsignia()
-            info.addToGrid(0, 0, "    Distance (LY):", distance.toString(), highlightColor)
-            info.addToGrid(1, 0, " |  Fuel required:", Misc.getWithDGS(cost.toFloat()), requiredFuelColor)
-            if (crPenalty > 0) info.addToGrid(
-                2,
-                0,
-                " |  Recovery cost:",
-                Misc.getRoundedValueMaxOneAfterDecimal(supplyCost),
-                highlightColor
-            )
-            info.addGrid(0f)
-        }
-
-        override fun canConfirmSelection(entity: SectorEntityToken?): Boolean {
-            if (shiftJump == null || playerFleet == null) return false
-            if (entity == null) return false
-
-            val cost: Int = shiftJump!!.computeFuelCost(entity)
-            val available = playerFleet!!.cargo.fuel.toInt()
-            return cost <= available
-        }
-
-        override fun getFuelColorAlphaMult(): Float {
-            return 0.5f
-        }
-
-        private fun unsetFields() {
-            dialog = null
-            shiftJump = null
-            playerFleet = null
-        }
-    }
 
     private abstract class ShiftJumpState: StateMachine.State<State> {
         protected var shiftJump: ShiftJump
@@ -626,6 +516,46 @@ class ShiftJump : BaseAbilityPlugin() {
 
         open val cooldownColor: Color
             get() = Color(0,0,0,171)
+    }
+
+    private class InactiveState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
+        override fun enter() {
+            shiftJump.cooldownDays = 0.0f
+            shiftJump.blinking = false
+        }
+
+        override val spriteId: String
+            get() = INACTIVE_ICON_SPRITE_NAME
+
+        override fun onPressButton() {
+            shiftJump.playUISound(shiftJump.onSoundUI)
+            shiftJump.activate()
+        }
+
+        override fun onActivate(): State {
+            if (shiftJump.fleet != null && shiftJump.fleet.isPlayerFleet) {
+                Global.getSector().reportPlayerActivatedAbility(shiftJump, null)
+            }
+            return State.CHARGING
+        }
+
+        override fun onDeactivate(): State? {
+            return null
+        }
+
+        override val isUsable: Boolean
+            get() {
+                val chargeCostPerDay = WOESettings.shiftJumpChargeTransplutonicsPerDayPerDP
+                val cargo = shiftJump.fleet.cargo
+                val quantity = cargo.getCommodityQuantity(Commodities.RARE_METALS)
+                if ((chargeCostPerDay > 0f) && (quantity <= 0f)) {
+                    return false
+                }
+                return super.isUsable
+            }
+
+        override val isActive: Boolean
+            get() = false
     }
 
     private class ChargeState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
@@ -727,58 +657,20 @@ class ShiftJump : BaseAbilityPlugin() {
             get() = CHARGING_ICON_SPRITE_NAME
     }
 
-    private class CooldownState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
+    private class ReadyState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
         override fun enter() {
-            shiftJump.cooldownDays = WOESettings.shiftJumpCooldownDays
+            shiftJump.showFloatingText("Ready for shift jump", Misc.setAlpha(shiftJump.fleet.indicatorColor, 255))
         }
 
-        override fun advance(amount: Float): State {
-            val daysElapsed = Global.getSector().clock.convertToDays(amount)
-            shiftJump.cooldownDays -= daysElapsed
-            if (shiftJump.cooldownDays <= 0.0f) {
-                return State.INACTIVE
+        override fun advance(amount: Float): State? {
+            val chargeCostPerDay = shiftJump.computeAndCacheChargeCostPerDay()
+            if (!shiftJump.isChargeCostValid(chargeCostPerDay)) {
+                shiftJump.deactivate()
+                shiftJump.showFloatingText("Shift drive field destabilized", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
+                return null
             }
-            return State.COOLDOWN
+            return State.READY
         }
-
-        override val cooldownFraction: Float
-            get() {
-                val daysToCooldown = WOESettings.shiftJumpCooldownDays
-                return 1.0f - (shiftJump.cooldownDays / daysToCooldown)
-            }
-
-        override val shouldShowCooldownIndicator: Boolean
-            get() = true
-
-        override fun onDeactivate(): State? {
-            return null
-        }
-
-        override val isActive: Boolean
-            get() = false
-    }
-
-    private class FinishedState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
-        override fun advance(amount: Float): State {
-            return State.COOLDOWN
-        }
-
-        override fun onDeactivate(): State {
-            if (shiftJump.fleet != null && shiftJump.fleet.isPlayerFleet) {
-                Global.getSector().reportPlayerDeactivatedAbility(shiftJump, null)
-            }
-            return State.COOLDOWN
-        }
-    }
-
-    private class InactiveState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
-        override fun enter() {
-            shiftJump.cooldownDays = 0.0f
-            shiftJump.blinking = false
-        }
-
-        override val spriteId: String
-            get() = INACTIVE_ICON_SPRITE_NAME
 
         override fun onPressButton() {
             shiftJump.playUISound(shiftJump.onSoundUI)
@@ -786,29 +678,43 @@ class ShiftJump : BaseAbilityPlugin() {
         }
 
         override fun onActivate(): State {
-            if (shiftJump.fleet != null && shiftJump.fleet.isPlayerFleet) {
-                Global.getSector().reportPlayerActivatedAbility(shiftJump, null)
-            }
-            return State.CHARGING
+            return State.SELECTING_TARGET
         }
 
-        override fun onDeactivate(): State? {
-            return null
-        }
+        override val cooldownFraction: Float
+            get() = 0.0f
 
-        override val isUsable: Boolean
+        override val shouldShowCooldownIndicator: Boolean
+            get() = true
+
+        override val cooldownColor: Color
             get() {
-                val chargeCostPerDay = WOESettings.shiftJumpChargeTransplutonicsPerDayPerDP
-                val cargo = shiftJump.fleet.cargo
-                val quantity = cargo.getCommodityQuantity(Commodities.RARE_METALS)
-                if ((chargeCostPerDay > 0f) && (quantity <= 0f)) {
-                    return false
-                }
-                return super.isUsable
+                val t: Float = ((sin(shiftJump.blinkValue) + 1.0f) * 0.5f) * shiftJump.blinkIntensity.value
+                val blinkColor = Color(255, 255, 255, 0)
+                val defaultColor = CHARGE_UP_COLOR
+                return lerpColors(defaultColor, blinkColor, t)
             }
 
-        override val isActive: Boolean
-            get() = false
+        override val spriteId: String
+            get() = READY_ICON_SPRITE_NAME
+    }
+
+    private class SelectingTargetState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
+        private fun showDestinationPicker() {
+            DestinationPicker.execute(shiftJump)
+        }
+
+        override fun enter() {
+            showDestinationPicker()
+            shiftJump.blinking = false
+        }
+
+        override fun advance(amount: Float): State {
+            if (shiftJump.pickedTarget != null) {
+                return State.JUMPING
+            }
+            return State.READY
+        }
     }
 
     private class JumpingState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
@@ -1002,65 +908,192 @@ class ShiftJump : BaseAbilityPlugin() {
         }
     }
 
-    private class ReadyState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
-        override fun enter() {
-            shiftJump.showFloatingText("Ready for shift jump", Misc.setAlpha(shiftJump.fleet.indicatorColor, 255))
+    private class FinishedState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
+        override fun advance(amount: Float): State {
+            return State.COOLDOWN
         }
 
-        override fun advance(amount: Float): State? {
-            val chargeCostPerDay = shiftJump.computeAndCacheChargeCostPerDay()
-            if (!shiftJump.isChargeCostValid(chargeCostPerDay)) {
-                shiftJump.deactivate()
-                shiftJump.showFloatingText("Shift drive field destabilized", Misc.setAlpha(Misc.getNegativeHighlightColor(), 255))
-                return null
+        override fun onDeactivate(): State {
+            if (shiftJump.fleet != null && shiftJump.fleet.isPlayerFleet) {
+                Global.getSector().reportPlayerDeactivatedAbility(shiftJump, null)
             }
-            return State.READY
+            return State.COOLDOWN
+        }
+    }
+
+    private class CooldownState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
+        override fun enter() {
+            shiftJump.cooldownDays = WOESettings.shiftJumpCooldownDays
         }
 
-        override fun onPressButton() {
-            shiftJump.playUISound(shiftJump.onSoundUI)
-            shiftJump.activate()
-        }
-
-        override fun onActivate(): State {
-            return State.SELECTING_TARGET
+        override fun advance(amount: Float): State {
+            val daysElapsed = Global.getSector().clock.convertToDays(amount)
+            shiftJump.cooldownDays -= daysElapsed
+            if (shiftJump.cooldownDays <= 0.0f) {
+                return State.INACTIVE
+            }
+            return State.COOLDOWN
         }
 
         override val cooldownFraction: Float
-            get() = 0.0f
+            get() {
+                val daysToCooldown = WOESettings.shiftJumpCooldownDays
+                return 1.0f - (shiftJump.cooldownDays / daysToCooldown)
+            }
 
         override val shouldShowCooldownIndicator: Boolean
             get() = true
 
-        override val cooldownColor: Color
-            get() {
-                val t: Float = ((sin(shiftJump.blinkValue) + 1.0f) * 0.5f) * shiftJump.blinkIntensity.value
-                val blinkColor = Color(255, 255, 255, 0)
-                val defaultColor = CHARGE_UP_COLOR
-                return lerpColors(defaultColor, blinkColor, t)
-            }
+        override fun onDeactivate(): State? {
+            return null
+        }
 
-        override val spriteId: String
-            get() = READY_ICON_SPRITE_NAME
+        override val isActive: Boolean
+            get() = false
     }
 
-    private class SelectingTargetState(shiftJump: ShiftJump): ShiftJumpState(shiftJump) {
-        private fun showDestinationPicker() {
-            DestinationPicker.execute(shiftJump)
+    private class DestinationPicker : InteractionDialogPlugin {
+        @Transient
+        private var shiftJump: ShiftJump? = null
+
+        @Transient
+        private var dialog: InteractionDialogAPI? = null
+
+        override fun init(dialog: InteractionDialogAPI?) {
+            this.dialog = dialog
+            this.dialog!!.showCampaignEntityPicker(
+                "Select destination", "Destination:", "Initiate Shift Jump",
+                Global.getSector().playerFaction,
+                this.shiftJump?.getValidDestinationList(),
+                DestinationPickerListener(this.dialog, this.shiftJump)
+            )
+            unsetFields()
         }
 
-        override fun enter() {
-            showDestinationPicker()
-            shiftJump.blinking = false
+        override fun optionSelected(optionText: String?, optionData: Any?) {
         }
 
-        override fun advance(amount: Float): State {
-            if (shiftJump.pickedTarget != null) {
-                return State.JUMPING
+        override fun optionMousedOver(optionText: String?, optionData: Any?) {
+        }
+
+        override fun advance(amount: Float) {
+        }
+
+        override fun backFromEngagement(battleResult: EngagementResultAPI?) {
+            // I sure hope we don't end up here somehow...
+        }
+
+        override fun getContext(): Any? {
+            return null
+        }
+
+        override fun getMemoryMap(): MutableMap<String?, MemoryAPI?>? {
+            return null
+        }
+
+        private fun unsetFields() {
+            this.shiftJump = null
+            this.dialog = null
+        }
+
+        companion object {
+            fun execute(shiftJump: ShiftJump) {
+                val ui = Global.getSector().campaignUI
+                val picker = DestinationPicker()
+                picker.shiftJump = shiftJump
+                ui.showInteractionDialog(picker, null)
             }
-            return State.READY
         }
     }
 
-    override fun runWhilePaused(): Boolean = true
+    private class DestinationPickerListener(
+        @field:Transient private var dialog: InteractionDialogAPI?,
+        @field:Transient private var shiftJump: ShiftJump?
+    ) : BaseCampaignEntityPickerListener() {
+        @Transient
+        private var playerFleet: CampaignFleetAPI?
+
+        init {
+            playerFleet = Global.getSector().playerFleet
+        }
+
+        override fun getMenuItemNameOverrideFor(entity: SectorEntityToken?): String? {
+            return null
+        }
+
+        override fun pickedEntity(entity: SectorEntityToken?) {
+            shiftJump?.pickedTarget = entity
+            dialog?.dismiss()
+            unsetFields()
+            Global.getSector().isPaused = false
+        }
+
+        override fun cancelledEntityPicking() {
+            dialog?.dismiss()
+            unsetFields()
+            Global.getSector().isPaused = false
+        }
+
+        override fun getSelectedTextOverrideFor(entity: SectorEntityToken): String {
+            return entity.name + " - " + entity.containingLocation.nameWithTypeShort
+        }
+
+        override fun createInfoText(info: TooltipMakerAPI, entity: SectorEntityToken) {
+            if (shiftJump == null || playerFleet == null) return
+
+            val cost: Int = shiftJump!!.computeFuelCost(entity)
+            val crPenalty = (shiftJump!!.computeCRCost(entity).times(100f)).toInt()
+            val available = playerFleet!!.cargo.fuel.toInt()
+            val maxRange: Int = shiftJump!!.computeMaxRangeLY()
+            val distance = Misc.getDistanceLY(playerFleet!!, entity).toInt()
+            val supplyCost: Float = computeSupplyCostForCRRecovery(playerFleet!!, shiftJump!!.computeCRCost(entity))
+
+            var requiredFuelColor = Misc.getHighlightColor()
+            val highlightColor = Misc.getHighlightColor()
+            if (cost > available) {
+                requiredFuelColor = Misc.getNegativeHighlightColor()
+            }
+
+            info.setParaSmallInsignia()
+
+            info.beginGrid(200f, 3, Misc.getGrayColor())
+            info.setGridFontSmallInsignia()
+            info.addToGrid(0, 0, "    Maximum range (LY):", maxRange.toString(), highlightColor)
+            info.addToGrid(1, 0, " |  Fuel available:", Misc.getWithDGS(available.toFloat()), highlightColor)
+            if (crPenalty > 0) info.addToGrid(2, 0, " |  CR penalty:", "$crPenalty%", highlightColor)
+            info.addGrid(0f)
+
+            info.beginGrid(200f, 3, Misc.getGrayColor())
+            info.setGridFontSmallInsignia()
+            info.addToGrid(0, 0, "    Distance (LY):", distance.toString(), highlightColor)
+            info.addToGrid(1, 0, " |  Fuel required:", Misc.getWithDGS(cost.toFloat()), requiredFuelColor)
+            if (crPenalty > 0) info.addToGrid(
+                2,
+                0,
+                " |  Recovery cost:",
+                Misc.getRoundedValueMaxOneAfterDecimal(supplyCost),
+                highlightColor
+            )
+            info.addGrid(0f)
+        }
+
+        override fun canConfirmSelection(entity: SectorEntityToken?): Boolean {
+            if (shiftJump == null || playerFleet == null) return false
+            if (entity == null) return false
+
+            val cost: Int = shiftJump!!.computeFuelCost(entity)
+            val available = playerFleet!!.cargo.fuel.toInt()
+            return cost <= available
+        }
+
+        override fun getFuelColorAlphaMult(): Float {
+            return 0.5f
+        }
+
+        private fun unsetFields() {
+            dialog = null
+            shiftJump = null
+            playerFleet = null
+        }
+    }
 }
